@@ -1,0 +1,33 @@
+<!--
+disabled : supported by [<button>,<input>,<select>,<textarea>,<optgroup>,<option>]
+readonly : supported by [<input>,<textarea>]
+required : supported by [<input>,<textarea>,<select>]
+inert : Most block-level elements (<div>, <span>, <section>, etc.)
+autocomplete : supported by [<form>,<input>]    
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Boolean Attributes Example</title>
+</head>
+<body>
+
+    <form action="#">
+
+        <!-- readonly: Supported by <input>, <textarea> -->
+        <input type="text" name="title" placeholder="Readonly Title" readonly>
+        <br />
+        <!-- required & autocomplete: Supported by <input>, <form> -->
+        <input type="text" name="name" placeholder="name" required autocomplete="on">
+        <br />
+        <!-- disabled: Supported by <input>, <button>, <select>, etc. -->
+        <input type="password" name="password" placeholder="password-disabled" disabled>
+        <br />
+        <!-- inert: Supported by most block-level elements (experimental) -->
+        <button type="submit" inert>Submit (Inert)</button>
+
+    </form>
+
+</body>
+</html>

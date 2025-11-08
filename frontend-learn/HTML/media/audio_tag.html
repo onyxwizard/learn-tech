@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Audio Element Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f9f9f9;
+      line-height: 1.6;
+    }
+
+    h1, h2 {
+      color: #333;
+    }
+
+    .audio-container {
+      margin-top: 20px;
+      max-width: 600px;
+    }
+
+    audio {
+      width: 100%;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #666;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #eee;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>HTML Audio Element</h1>
+    <p>Demonstration of HTML5 audio with multiple attributes and examples.</p>
+  </header>
+
+  <main>
+    <!-- Example 1: Basic Audio with Controls -->
+    <section class="audio-container">
+      <h2>Basic Audio with Controls</h2>
+      <p>The browser will choose the first supported format.</p>
+
+      <!-- 
+        <audio>: Embeds an audio player into the page.
+        controls: Enables built-in play/pause/volume controls.
+      -->
+      <audio controls>
+        <!-- 
+          <source>: Specifies different audio files and their MIME types.
+          Browsers will try them in order until one works.
+        -->
+        <source src="sample_3sec_audio.mp3" type="audio/mpeg">
+        <source src="sample_3sec_audio.wav" type="audio/wav">
+        <source src="sample_3sec_audio.ogg" type="audio/ogg">
+
+        <!-- Fallback text if audio not supported -->
+        Sorry, your browser does not support the audio tag.
+      </audio>
+    </section>
+
+    <!-- Example 2: Autoplay, Loop, Muted -->
+    <section class="audio-container">
+      <h2>Autoplay + Loop + Muted</h2>
+      <p>This audio starts automatically and loops continuously. The muted attribute ensures compatibility with browsers like Chrome.</p>
+
+      <audio controls autoplay muted loop>
+        <source src="sample_3sec_audio.mp3" type="audio/mpeg">
+        <source src="sample_3sec_audio.wav" type="audio/wav">
+        <source src="sample_3sec_audio.ogg" type="audio/ogg">
+        Your browser does not support the audio tag.
+      </audio>
+    </section>
+  </main>
+
+  <footer>
+    <h2>Browser Format Support</h2>
+    <p>
+      Supported formats: MP3, WAV, Ogg.<br>
+      Always provide multiple sources for better cross-browser compatibility.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Browser</th>
+          <th>OGG</th>
+          <th>WAV</th>
+          <th>MP3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Chrome</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>Edge</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>Safari</td>
+          <td>No</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>Firefox</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>Opera</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>&copy; 2025 OnyxWizard - HTML Audio Demo</p>
+  </footer>
+
+</body>
+</html>

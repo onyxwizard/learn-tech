@@ -1,0 +1,78 @@
+<!-- 
+<table>
+    │
+    ├── <caption>         👉 Optional: A title for the table
+    │
+    ├── <colgroup>        👉 Optional: Defines a group of columns for styling
+    │   ├── <col>         👉 Defines style/column properties for one or more columns
+    │   └── ...           👉 Multiple <col> allowed inside <colgroup>
+    │
+    ├── <thead>           👉 Required for header rows (semantic grouping)
+    │   └── <tr>          👉 Table row
+    │       ├── <th>      👉 Header cell (text bold & centered by default)
+    │       ├── <th>      👉 Another header cell
+    │       └── ...       👉 More header cells as needed
+    │
+    ├── <tbody>           👉 Required for main body of the table
+    │   └── <tr>          👉 First data row
+    │       ├── <td>      👉 Data cell
+    │       ├── <td>      👉 Another data cell
+    │       └── ...       👉 More data cells as needed
+    │   └── <tr>          👉 Second data row
+    │       ├── <td>
+    │       ├── <td>
+    │       └── ...
+    │
+    ├── <tfoot>           👉 Optional footer section (often used for summaries)
+    │   └── <tr>
+    │       ├── <td>      👉 Footer data cell
+    │       ├── <td>
+    │       └── ...       👉 More footer cells
+    │
+    └── <tr>, <td>, <th>  👉 Can also be direct children of <table>, but not recommended
+                        👉 It's best to wrap them inside <thead>, <tbody>, or <tfoot>
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Table</title>
+</head>
+<body>
+    <header>
+        <h2>HTML Table</h2>
+    </header>
+    <main>
+        <section>
+            <table border="2px"> <!-- border is deprecated use CSS-->
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Laptop</td>
+                        <td>Electronic</td>
+                        <td>$800</td>
+                    </tr>
+                    <tr>
+                        <td>Bookshelf</td>
+                        <td>Furniture</td>
+                        <td>$150</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">Total</td>
+                        <td>$950</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

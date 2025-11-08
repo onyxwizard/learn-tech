@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Table Nested</title>
+    <style>
+        table,th,td{
+            border: 2px solid black;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h2>Nested Table</h2>
+    </header>
+    <section>
+        <table>
+            <tr>
+                <td>Main Table</td>
+            </tr>
+            <td>
+                <table>
+                    <tr>
+                        <td>Nested 1</td>
+                    </tr>
+                    <tr>
+                        <td>Nested 2</td>
+                    </tr>
+                </table>
+            </td>
+        </table>
+    </section>
+    <section>
+        <table>
+            <caption>Student Grades</caption>
+            <colgroup>
+                <col span="1" style="width: 40%">
+                <col span="2" style="background-color: #cd1f1f">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Math</th>
+                    <th>Science</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Alice</td>
+                    <td>90</td>
+                    <td>85</td>
+                </tr>
+                <tr>
+                    <td>Bob</td>
+                    <td>78</td>
+                    <td>92</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>Average</td>
+                    <td>84</td>
+                    <td>88.5</td>
+                </tr>
+            </tfoot>
+        </table>
+    </section>
+</body>
+</html>

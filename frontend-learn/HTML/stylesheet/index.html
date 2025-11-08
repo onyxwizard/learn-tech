@@ -1,0 +1,70 @@
+<!-- 
+📘 HTML CSS Integration Demo
+
+This document demonstrates the three ways to apply CSS in HTML:
+1. External CSS: Define styles in an external .css file and link it using <link> tag.
+2. Internal CSS: Define styles inside <style> tag in the <head> section.
+3. Inline CSS: Define styles directly on HTML elements using style attribute.
+
+Examples are separated into sections for clarity.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS Types Demo</title>
+
+    <!-- 1️⃣ EXTERNAL CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- 2️⃣ INTERNAL CSS -->
+    <style>
+        .internal {
+            color: blue;
+        }
+        .internal-thick {
+            font-size: 20px;
+        }
+        .internal-bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CSS Application Methods</h1>
+
+    <!-- 🔹 EXTERNAL CSS EXAMPLE -->
+    <section>
+        <h2>1. External CSS</h2>
+        <p class="red">This is red</p>
+        <p class="thick">This is thick</p>
+        <p class="green">This is green</p>
+        <p class="thick green">This is thick and green</p>
+    </section>
+
+    <hr>
+
+    <!-- 🔹 INTERNAL CSS EXAMPLE -->
+    <section>
+        <h2>2. Internal CSS</h2>
+        <p class="internal">This is blue (internal)</p>
+        <p class="internal internal-thick">This is blue and thick</p>
+        <p class="internal internal-bold">This is blue and bold</p>
+    </section>
+
+    <hr>
+
+    <!-- 🔹 INLINE CSS EXAMPLE -->
+    <section>
+        <h2>3. Inline CSS</h2>
+        <p style="color: orange;">This is orange (inline)</p>
+        <p style="font-size: 24px;">This is large text (inline)</p>
+        <p style="color: purple; font-size: 20px; background-color: #ffeecc;">
+            This is styled with multiple inline properties
+        </p>
+    </section>
+
+</body>
+</html>

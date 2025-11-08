@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Embed & Object Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 14px; /* Reduced base font size */
+      padding: 15px;
+      background-color: #f9f9f9;
+      line-height: 1.4;
+      color: #333;
+    }
+
+    h1, h2 {
+      font-size: 18px; /* Smaller heading size */
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+
+    .media-container {
+      margin-bottom: 20px;
+      max-width: 700px;
+    }
+
+    embed, object {
+      width: 100%;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      background-color: #fff;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 600px;
+      font-size: 13px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 6px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #777;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+    }
+
+    code {
+      font-family: monospace;
+      background-color: #eee;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>HTML <code>&lt;embed&gt;</code> vs <code>&lt;object&gt;</code> Demo</h1>
+    <p>Demo of embedding multimedia using <code>&lt;embed&gt;</code> and <code>&lt;object&gt;</code>.</p>
+  </header>
+
+  <main>
+    <!-- Example 1: Embed Video -->
+    <section class="media-container">
+      <h2>Embed Video Using <code>&lt;embed&gt;</code></h2>
+      <p>The <code>&lt;embed&gt;</code> tag is used to embed external media like videos or audio.</p>
+      <embed src="sampleTP.mp4"
+             type="video/mp4"
+             width="450"
+             height="250"
+             title="Embedded Video">
+    </section>
+
+    <!-- Example 2: Embed Audio -->
+    <section class="media-container">
+      <h2>Embed Audio Using <code>&lt;embed&gt;</code></h2>
+      <p>You can also embed audio files directly into the page using <code>&lt;embed&gt;</code>.</p>
+      <embed src="sample_3sec_audio.mp3"
+             type="audio/mp3"
+             width="450"
+             height="50"
+             title="Embedded Audio">
+    </section>
+
+    <!-- Example 3: Render PDF Using <object> -->
+    <section class="media-container">
+      <h2>Render PDF Using <code>&lt;object&gt;</code></h2>
+      <p>The <code>&lt;object&gt;</code> tag allows you to embed various resources including PDFs.</p>
+      <object data="example.pdf"
+              type="application/pdf"
+              width="600"
+              height="400">
+        <p>Your browser does not support PDF embedding. <a href="example.pdf">Download PDF</a></p>
+      </object>
+    </section>
+
+    <!-- Example 4: Embed HTML Page -->
+    <section class="media-container">
+      <h2>Embed Another HTML Document</h2>
+      <p><code>&lt;object&gt;</code> can also be used to embed another HTML document inside the current one.</p>
+      <object data="../media/video_tag.html"
+              type="text/html"
+              width="600"
+              height="300">
+        <p>Fallback: Your browser doesn't support embedded HTML documents.</p>
+      </object>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="media-container">
+      <h2>Comparison: <code>&lt;object&gt;</code> vs <code>&lt;embed&gt;</code></h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th><code>&lt;object&gt;</code></th>
+            <th><code>&lt;embed&gt;</code></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Usage</td>
+            <td>General-purpose (PDF, HTML, video)</td>
+            <td>Quick media embed (audio/video)</td>
+          </tr>
+          <tr>
+            <td>Attributes</td>
+            <td>data, type, width, height</td>
+            <td>src, type, width, height</td>
+          </tr>
+          <tr>
+            <td>HTML5 Support</td>
+            <td>✅ Yes</td>
+            <td>✅ Yes</td>
+          </tr>
+          <tr>
+            <td>Fallback Content</td>
+            <td>✅ Yes</td>
+            <td>❌ No</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>Note:</strong> Both tags are supported in modern browsers. Use <code>&lt;object&gt;</code> when fallback content or flexibility is needed.</p>
+    <p>&copy; 2025 OnyxWizard - HTML Multimedia Demo</p>
+  </footer>
+
+</body>
+</html>

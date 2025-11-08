@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Physical & Logical Text Formatting Tags</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #2c3e50;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .deprecated {
+            color: red;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📘 HTML Physical & Logical Text Formatting Tags</h1>
+    <p>This page demonstrates all major <strong>physical</strong>, <strong>logical</strong>, and related inline text formatting tags in HTML.</p>
+
+    <!-- ============ PHYSICAL TAGS ============ -->
+
+    <h2>🔹 Physical Tags (Styling Only)</h2>
+
+    <!-- <b> -->
+    <h3><code><b></code>: Bold Text</h3>
+    <p>This is <b>bolded text</b> using the physical tag.</p>
+    <pre><b>Bold</b></pre>
+
+    <!-- <i> -->
+    <h3><code><i></code>: Italic Text</h3>
+    <p>This is <i>italicized text</i> using the physical tag.</p>
+    <pre><i>Italic</i></pre>
+
+    <!-- <small> -->
+    <h3><code><small></code>: Smaller Text</h3>
+    <p>This is <small>smaller text</small> used typically for disclaimers or footnotes.</p>
+    <pre><small>Smaller</small></pre>
+
+    <!-- <u> -->
+    <h3><code><u></code>: Underlined Text</h3>
+    <p>This is <u>underlined text</u> — use sparingly to avoid confusion with links.</p>
+    <pre><u>Underline</u></pre>
+
+    <!-- Deprecated Tags -->
+    <p class="deprecated">⚠️ Note: "big", "strike", and "tt" are deprecated in HTML5. Avoid using them.</p>
+
+    <hr>
+
+    <!-- ============ LOGICAL TAGS ============ -->
+
+    <h2>🔹 Logical Tags (Semantic Meaning)</h2>
+
+    <!-- <strong> -->
+    <h3><code><strong></code>: Strong Importance</h3>
+    <p>This is <strong>very important</strong> content marked with semantic emphasis.</p>
+    <pre><strong>Strong</strong></pre>
+
+    <!-- <em> -->
+    <h3><code><em></code>: Emphasized Text</h3>
+    <p>This is <em>important context</em> that should be emphasized by screen readers.</p>
+    <pre><em>Emphasis</em></pre>
+
+    <hr>
+
+    <!-- ============ OTHER INLINE FORMATTING TAGS ============ -->
+
+    <h2>🔹 Other Useful Inline Formatting Tags</h2>
+
+    <!-- <sup> -->
+    <h3><code><sup></code>: Superscript</h3>
+    <p>The formula for water is H<sup>2</sup>O.</p>
+    <pre>H<sup>2</sup>O</pre>
+
+    <!-- <sub> -->
+    <h3><code><sub></code>: Subscript</h3>
+    <p>Einstein's equation is E = mc<sub>2</sub>.</p>
+    <pre>E = mc<sub>2</sub></pre>
+
+    <!-- <ins> -->
+    <h3><code><ins></code>: Inserted Text</h3>
+    <p>The price was $99, now it's <del>$79</del> <ins>$59</ins>.</p>
+    <pre><ins>Inserted</ins></pre>
+
+    <!-- <del> -->
+    <h3><code><del></code>: Deleted Text</h3>
+    <p>This sentence has <del>incorrect information</del> that was removed.</p>
+    <pre><del>Deleted</del></pre>
+
+    <!-- <mark> -->
+    <h3><code><mark></code>: Highlighted Text</h3>
+    <p>You searched for <mark>highlighted word</mark> and found it!</p>
+    <pre><mark>Highlight</mark></pre>
+
+    <hr>
+
+    <!-- ============ SUMMARY TABLE ============ -->
+
+    <h2>✅ Summary Table</h2>
+
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Tag</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Deprecated?</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><code><b></code></td><td>Bold text</td><td>Physical</td><td>No</td></tr>
+            <tr><td><code><i></code></td><td>Italic text</td><td>Physical</td><td>No</td></tr>
+            <tr><td><code><small></code></td><td>Smaller text</td><td>Physical</td><td>No</td></tr>
+            <tr><td><code><u></code></td><td>Underlined text</td><td>Physical</td><td>No</td></tr>
+            <tr><td><code><strong></code></td><td>Semantic bold</td><td>Logical</td><td>No</td></tr>
+            <tr><td><code><em></code></td><td>Semantic emphasis</td><td>Logical</td><td>No</td></tr>
+            <tr><td><code><sup></code></td><td>Superscript</td><td>Other</td><td>No</td></tr>
+            <tr><td><code><sub></code></td><td>Subscript</td><td>Other</td><td>No</td></tr>
+            <tr><td><code><ins></code></td><td>Inserted text</td><td>Other</td><td>No</td></tr>
+            <tr><td><code><del></code></td><td>Deleted text</td><td>Other</td><td>No</td></tr>
+            <tr><td><code><mark></code></td><td>Highlighted text</td><td>Other</td><td>No</td></tr>
+            <tr><td colspan="4"><span class="deprecated">❌ Deprecated Tags: big, strike, tt</span></td></tr>
+        </tbody>
+    </table>
+
+    <footer>
+        <p>Created for educational purposes • © 2025</p>
+    </footer>
+
+</body>
+</html>

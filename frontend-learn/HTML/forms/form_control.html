@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Controls</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    .form-control {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    input[type="number"],
+    input[type="range"],
+    input[type="date"],
+    input[type="time"],
+    input[type="datetime-local"],
+    input[type="month"],
+    input[type="week"],
+    select,
+    textarea {
+      padding: 8px;
+      width: 100%;
+      max-width: 400px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>HTML Form Controls</h1>
+    <p>A basic demonstration of different types of form controls in HTML.</p>
+  </header>
+
+  <main>
+    <section>
+      <!-- 
+        <form>: Container for all interactive form elements.
+        action="#": Submit to same page (for demo purposes)
+        method="post": Secure way to send data
+      -->
+      <form action="#" method="post">
+
+        <!-- 1. Text Input Control -->
+        <div class="form-control">
+          <label for="name">Text Input (Full Name)</label>
+          <input type="text" id="name" name="name" placeholder="Enter your name">
+        </div>
+
+        <!-- 2. Checkboxes Control -->
+        <div class="form-control">
+          <label>Checkboxes (Choose Hobbies)</label>
+          <label><input type="checkbox" name="hobby1" value="reading"> Reading</label>
+          <label><input type="checkbox" name="hobby2" value="sports"> Sports</label>
+          <label><input type="checkbox" name="hobby3" value="music"> Music</label>
+        </div>
+
+        <!-- 3. Radio Buttons Control -->
+        <div class="form-control">
+          <label>Radio Buttons (Gender)</label>
+          <label><input type="radio" name="gender" value="male"> Male</label>
+          <label><input type="radio" name="gender" value="female"> Female</label>
+          <label><input type="radio" name="gender" value="other"> Trans</label>
+        </div>
+
+        <!-- 4. Select Box Control -->
+        <div class="form-control">
+          <label for="country">Select Box (Country)</label>
+          <select id="country" name="country">
+            <option value="">-- Select Country --</option>
+            <option value="usa">USA</option>
+            <option value="uk">UK</option>
+            <option value="india">India</option>
+          </select>
+        </div>
+
+        <!-- 5. File Select Box -->
+        <div class="form-control">
+          <label for="photo">File Upload (Photo)</label>
+          <input type="file" id="photo" name="photo">
+        </div>
+
+        <!-- 6. Button Control -->
+        <div class="form-control">
+          <button type="submit">Submit Form</button>
+        </div>
+
+        <!-- 7. Hidden Form Control -->
+        <input type="hidden" name="user_id" value="12345">
+
+        <!-- 8. Datetime Controls -->
+
+        <!-- Date Control -->
+        <div class="form-control">
+          <label for="birthdate">Date Control (Birthdate)</label>
+          <input type="date" id="birthdate" name="birthdate">
+        </div>
+
+        <!-- Month Control -->
+        <div class="form-control">
+          <label for="birthmonth">Month Control</label>
+          <input type="month" id="birthmonth" name="birthmonth">
+        </div>
+
+        <!-- Week Control -->
+        <div class="form-control">
+          <label for="birthweek">Week Control</label>
+          <input type="week" id="birthweek" name="birthweek">
+        </div>
+
+        <!-- Time Control -->
+        <div class="form-control">
+          <label for="appt-time">Time Control (Appointment)</label>
+          <input type="time" id="appt-time" name="appt_time">
+        </div>
+
+        <!-- Number Control -->
+        <div class="form-control">
+          <label for="age">Number Control (Age)</label>
+          <input type="number" id="age" name="age" min="0" max="120">
+        </div>
+
+        <!-- Range Control -->
+        <div class="form-control">
+          <label for="rating">Range Control (Rating out of 10)</label>
+          <input type="range" id="rating" name="rating" min="0" max="10">
+        </div>
+
+        <!-- Email Control -->
+        <div class="form-control">
+          <label for="email">Email Control</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com">
+        </div>
+
+        <!-- URL Control -->
+        <div class="form-control">
+          <label for="website">URL Control</label>
+          <input type="url" id="website" name="website" placeholder="https://example.com ">
+        </div>
+
+        <!-- Final Submit Button -->
+        <button type="submit">Submit All Data</button>
+
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 OnyxWizard - Form Controls Demo</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Grid Layout</title>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto;
+            padding: 5px;
+            background-color: lightgray;
+            gap: 5px;
+        }
+
+        .sidebar {
+            padding: 10px;
+            background-color: lightslategray;
+            color: white;
+        }
+
+        .main-content {
+            padding: 10px;
+            background-color: lightslategray;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Understanding CSS Grid Layout</h1>
+    </header>
+
+    <div class="grid-container">
+        <!-- Sidebar Section -->
+        <section class="sidebar">
+            <h2>Navigation</h2>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Careers</a></li>
+            </ul>
+        </section>
+
+        <!-- Main Content Section -->
+        <section class="main-content">
+            <h2>Welcome to Our Site</h2>
+            <p>This layout is built using CSS Grid. It divides the page into two columns: a sidebar for navigation and a main area for content.</p>
+        </section>
+    </div>
+
+    <section>
+        <h2>How CSS Grid Works</h2>
+        <p>The CSS Grid layout allows you to design complex web layouts using rows and columns. In this example, we've created a simple two-column layout using the `display: grid` property and defined two columns with `grid-template-columns: auto auto`.</p>
+    </section>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive Image Map: India</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 900px;
+            margin: auto;
+            background-color: #f9f9f9;
+        }
+
+        img {
+            display: block;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+
+        h1, h2 {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🧱 Page Header -->
+    <header>
+        <h1>🌍 Interactive Image Map: India</h1>
+        <p>This example demonstrates how to create an interactive image map using the <code><map></code> and <code><area></code> tags.</p>
+    </header>
+
+    <!-- 🟦 Main Content Area -->
+    <main>
+
+        <!-- 📌 What is an Image Map? -->
+        <section>
+            <h2>What is an Image Map?</h2>
+            <p>An <strong>image map</strong> allows you to define multiple clickable areas on a single image. Each area can be a rectangle, circle, or polygon, and can link to different URLs based on where the user clicks.</p>
+        </section>
+
+        <!-- 🔧 How Does It Work? -->
+        <section>
+            <h2>How Does It Work?</h2>
+            <p>Image maps are created using two main tags:</p>
+            <ul>
+                <li><code><map></code>: Defines the map and links it to an image via its <code>name</code> attribute.</li>
+                <li><code><area></code>: Defines individual clickable regions within the map, specifying shape, coordinates, and destination URL.</li>
+            </ul>
+        </section>
+
+        <!-- 🛠 How to Use It -->
+        <section>
+            <h2>How to Use Image Maps</h2>
+            <ol>
+                <li>Use the <code><img></code> tag with the <code>usemap</code> attribute pointing to your map name (e.g., <code>usemap="#india_map"</code>).</li>
+                <li>Create a <code><map></code> element with the same <code>name</code> as referenced in the image.</li>
+                <li>Add one or more <code><area></code> elements inside the map to define clickable zones.</li>
+            </ol>
+        </section>
+
+        <!-- 🧩 Example: India Map Image Map -->
+        <section>
+            <h2>India Map with Clickable Region</h2>
+            <p>In this example, clicking on the highlighted region of India will open a link to a related page.</p>
+
+            <!-- Replace "india-map.jpg" with your actual image path -->
+            <img src="map.jpg" alt="Map of India" usemap="#india_map" >
+
+            <!-- Define clickable areas -->
+            <map name="india_map">
+                <!-- India -->
+                <area shape="poly"
+                    coords="666,339,687,381,732,331,676,316"
+                    href="https://www.india.gov.in "
+                    alt="India">
+            </map>
+
+            <p><small>💡 Tip: You can test this by replacing <code>india-map.jpg</code> with any image and updating the <code>href</code> links to real pages.</small></p>
+        </section>
+
+        <!-- 📋 Summary Table -->
+        <section>
+            <h2>📋 Supported Shapes for Clickable Areas</h2>
+            <table border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>Shape</th>
+                        <th>Attribute Value</th>
+                        <th>Coordinates Format</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Rectangle</td>
+                        <td><code>rect</code></td>
+                        <td><code>x1,y1,x2,y2</code></td>
+                        <td><code><area shape="rect" coords="100,50,200,150" href="..."></code></td>
+                    </tr>
+                    <tr>
+                        <td>Circle</td>
+                        <td><code>circle</code></td>
+                        <td><code>x,y,r</code></td>
+                        <td><code><area shape="circle" coords="300,100,40" href="..."></code></td>
+                    </tr>
+                    <tr>
+                        <td>Polygon</td>
+                        <td><code>poly</code></td>
+                        <td><code>x1,y1,x2,y2,...,xn,yn</code></td>
+                        <td><code><area shape="poly" coords="400,200,450,250,420,300,380,280" href="..."></code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 💡 Tips for Using Image Maps -->
+        <section>
+            <h2>💡 Tips for Working with Image Maps</h2>
+            <ul>
+                <li>Always include an <code>alt</code> attribute for accessibility and fallback text.</li>
+                <li>Use online tools like <a href="https://www.image-map.net/ " target="_blank">Image Map Generator</a> to find exact coordinates.</li>
+                <li>The <code>usemap</code> attribute must start with a <code>#</code> symbol and match the <code>name</code> of the map exactly.</li>
+                <li>Avoid overlapping areas unless intentional — only the first defined area will respond.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- 🦵 Page Footer -->
+    <footer style="text-align:center; margin-top: 40px; color: #777;">
+        <p>© 2025 HTML Learning Center | Created for educational purposes</p>
+    </footer>
+
+</body>
+</html>

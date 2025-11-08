@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Input Attributes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input, textarea, select {
+      width: 100%;
+      max-width: 400px;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+    h2 {
+      color: #333;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>HTML Input Attributes</h1>
+    <p>Demonstration of common attributes used with the <b>&lt;input&gt;</b> element.</p>
+  </header>
+
+  <main>
+    <section>
+      <!-- 
+        <form>: Container for all form inputs.
+        action="#": For demo purposes, submits to same page
+        method="post": Secure way to send data
+      -->
+      <form action="#" method="post">
+
+        <!-- type and name -->
+        <div class="form-group">
+          <label for="username">type and name</label>
+          <!-- 
+            type: Defines the kind of input (text, password, email, etc.)
+            name: Identifier used when submitting form data
+          -->
+          <input type="text" id="username" name="username" placeholder="Enter username">
+        </div>
+
+        <!-- value -->
+        <div class="form-group">
+          <label for="defaultVal">value</label>
+          <!-- 
+            value: Sets the default or pre-filled value of the input field
+          -->
+          <input type="text" id="defaultVal" name="defaultVal" value="Default Text">
+        </div>
+
+        <!-- size -->
+        <div class="form-group">
+          <label for="shortInput">size</label>
+          <!-- 
+            size: Specifies the visible width (in characters) of the input field
+          -->
+          <input type="text" id="shortInput" name="shortInput" size="5" placeholder="Small input">
+        </div>
+
+        <!-- maxlength -->
+        <div class="form-group">
+          <label for="limitedText">maxlength</label>
+          <!-- 
+            maxlength: Limits the number of characters that can be entered
+          -->
+          <input type="text" id="limitedText" name="limitedText" maxlength="10" placeholder="Max 10 chars">
+        </div>
+
+        <!-- readonly -->
+        <div class="form-group">
+          <label for="readOnlyField">readonly</label>
+          <!-- 
+            readonly: Makes the field non-editable but still submittable
+          -->
+          <input type="text" id="readOnlyField" name="readOnlyField" value="Read-only text" readonly>
+        </div>
+
+        <!-- disabled -->
+        <div class="form-group">
+          <label for="disabledField">disabled</label>
+          <!-- 
+            disabled: Disables the field — not editable and not submitted
+          -->
+          <input type="text" id="disabledField" name="disabledField" value="Disabled Field" disabled>
+        </div>
+
+        <!-- min and max -->
+        <div class="form-group">
+          <label for="age">min and max</label>
+          <!-- 
+            min: Minimum allowed value
+            max: Maximum allowed value
+          -->
+          <input type="number" id="age" name="age" min="18" max="99" value="25">
+        </div>
+
+        <!-- accept and multiple -->
+        <div class="form-group">
+          <label for="fileUpload">accept and multiple</label>
+          <!-- 
+            accept: Restricts file types that can be uploaded
+            multiple: Allows uploading more than one file
+          -->
+          <input type="file" id="fileUpload" name="fileUpload" accept=".jpg,.png" multiple>
+        </div>
+
+        <!-- placeholder -->
+        <div class="form-group">
+          <label for="email">placeholder</label>
+          <!-- 
+            placeholder: Shows helper text inside the input before user types
+          -->
+          <input type="email" id="email" name="email" placeholder="you@example.com">
+        </div>
+
+        <!-- required -->
+        <div class="form-group">
+          <label for="password">required</label>
+          <!-- 
+            required: Ensures the field must be filled before submission
+          -->
+          <input type="password" id="password" name="password" required placeholder="Enter password">
+        </div>
+
+        <!-- autofocus -->
+        <div class="form-group">
+          <label for="autoFocusInput">autofocus</label>
+          <!-- 
+            autofocus: Automatically focuses this field when the page loads
+          -->
+          <input type="text" id="autoFocusInput" name="autoFocusInput" autofocus placeholder="Auto-focused">
+        </div>
+
+        <!-- list -->
+        <div class="form-group">
+          <label for="browser">list (with datalist)</label>
+          <!-- 
+            list: Binds an input to a datalist for autocomplete suggestions
+          -->
+          <input type="text" id="browser" name="browser" list="browsers" placeholder="Type browser name">
+          <datalist id="browsers">
+            <option value="Chrome">
+            <option value="Firefox">
+            <option value="Safari">
+            <option value="Edge">
+            <option value="Opera">
+          </datalist>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit All Inputs</button>
+
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 OnyxWizard - HTML Input Attributes Demo</p>
+  </footer>
+
+</body>
+</html>

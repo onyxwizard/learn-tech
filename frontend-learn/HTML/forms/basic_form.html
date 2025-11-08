@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Form Submission Viewer</title>
+  <style>
+    /* Simple styling to make the form look clean */
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .output {
+      margin-top: 30px;
+      background-color: #fff;
+      padding: 20px;
+      border-left: 5px solid #007BFF;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header section with page title -->
+  <header>
+    <h1>User Registration Form</h1>
+    <p>Please fill out the form below.</p>
+  </header>
+
+  <!-- Main content area -->
+  <main>
+    <section>
+      
+      <!-- 
+        <form>: Container for all interactive form elements.
+        id="userForm": Used to reference this form in JavaScript.
+      -->
+      <form id="userForm" method="post" >
+
+        <!-- 
+          <fieldset>: Groups related form controls together visually.
+        -->
+        <fieldset>
+          
+          <!-- 
+            <legend>: Provides a caption for the fieldset.
+          -->
+          <legend>Personal Information</legend>
+
+          <!-- 
+            <div class="form-group">: Wraps a label-input pair for layout purposes.
+          -->
+          <div class="form-group">
+            
+            <!-- 
+              <label for="name">: Associates text with an input using its ID.
+            -->
+            <label for="name">Full Name</label>
+            
+            <!-- 
+              <input type="text">: Single-line text input for user's full name.
+              id="name": Unique identifier linked to the label.
+              name="name": Identifier sent with form data on submission.
+              required: Makes this field mandatory.
+            -->
+            <input type="text" id="name" name="name" placeholder="John Doe" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            
+            <!-- 
+              <input type="email">: Input field that validates email format.
+            -->
+            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            
+            <!-- 
+              <input type="password">: Hides input for secure entry.
+            -->
+            <input type="password" id="password" name="password" placeholder="••••••••" required />
+          </div>
+
+          <div class="form-group">
+            <label for="bio">Tell us about yourself</label>
+            
+            <!-- 
+              <textarea>: Multi-line text input for longer descriptions.
+              rows="4": Sets number of visible text lines.
+            -->
+            <textarea id="bio" name="bio" rows="4" placeholder="Write something about yourself..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="country">Country</label>
+            
+            <!-- 
+              <select>: Dropdown list to choose one option from many.
+            -->
+            <select id="country" name="country">
+              
+              <!-- 
+                <option>: Represents one selectable item in a dropdown.
+              -->
+              <option value="">-- Select Country --</option>
+              <option value="usa">United States</option>
+              <option value="uk">United Kingdom</option>
+              <option value="india">India</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <p><strong>Gender:</strong></p>
+            
+            <!-- 
+              <input type="radio">: Lets user pick only one option from multiple choices.
+            -->
+            <label><input type="radio" name="gender" value="male"> Male</label>
+            <label><input type="radio" name="gender" value="female"> Female</label>
+            <label><input type="radio" name="gender" value="other"> Other</label>
+          </div>
+
+          <div class="form-group">
+            <!-- 
+              <input type="checkbox">: Allows toggling between on/off states.
+            -->
+            <label>
+              <input type="checkbox" name="subscribe" checked/> Subscribe to Newsletter
+            </label>
+          </div>
+
+          <!-- 
+            <button type="submit">: Submits the form data.
+          -->
+          <button type="submit">Submit</button>
+        </fieldset>
+      </form>
+
+      <!-- 
+        <div id="outputData">: Displays submitted form data dynamically.
+      -->
+      <div class="output" id="outputData">
+        <!-- Submitted data will appear here after form submission -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer section -->
+  <footer>
+    <p>&copy; 2025 OnyxWizard. All rights reserved.</p>
+  </footer>
+
+  <!-- 
+    <script>: Adds interactivity to the form using JavaScript.
+  -->
+  <script>
+    // Attach submit event listener to the form
+    document.getElementById("userForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent default form submission behavior
+
+      const formData = new FormData(this); // Collect all form data
+      let outputText = "Form Data:\n";
+
+      // Loop through each key-value pair in the form data
+      for (let [key, value] of formData.entries()) {
+        outputText += `${key}: ${value}\n`;
+      }
+
+      // Display the collected data in the output div
+      document.getElementById("outputData").textContent = outputText;
+    });
+  </script>
+
+</body>
+</html>

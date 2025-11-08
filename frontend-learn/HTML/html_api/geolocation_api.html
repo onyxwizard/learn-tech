@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolocation API - Get Your Location</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: start;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        header {
+            background-color: #007acc;
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        main {
+            max-width: 500px;
+            width: 100%;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        button {
+            background-color: #007acc;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+
+        #lock {
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>🌍 Geolocation API - HTML</h1>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section>
+            <h2>Find Your Current Location</h2>
+            <p>Click the button below to get your latitude and longitude.</p>
+            <button onclick="getLocation()">📍 Locate Me</button>
+        </section>
+
+        <section>
+            <!-- Output will be shown here -->
+            <p id="lock">🔒 Waiting for location data...</p>
+        </section>
+    </main>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Reference to the paragraph where we'll show the output
+        var output = document.getElementById("lock");
+
+        // Function triggered when user clicks the "Locate Me" button
+        function getLocation() {
+            // Check if geolocation is supported by the browser
+            if (!navigator.geolocation) {
+                output.innerHTML = "❌ Geolocation is not supported by this browser.";
+                return;
+            }
+
+            // Show loading message while fetching location
+            output.innerHTML = "⏳ Getting your location...";
+
+            // Request current position from the browser
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        }
+
+        // Success callback: Called when location is successfully retrieved
+        function showPosition(position) {
+            const latitude = position.coords.latitude.toFixed(6);  // limit decimal places
+            const longitude = position.coords.longitude.toFixed(6);
+
+            output.innerHTML = 
+                `✅ Your Current Location:<br><br>` +
+                `Latitude: <strong>${latitude}</strong><br>` +
+                `Longitude: <strong>${longitude}</strong>`;
+        }
+
+        // Error callback: Handles any errors that occur during location retrieval
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    output.innerHTML = "🚫 User denied the request for location access.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    output.innerHTML = "⚠️ Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    output.innerHTML = "⏰ The request to get your location timed out.";
+                    break;
+                default:
+                    output.innerHTML = "❓ An unknown error occurred.";
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

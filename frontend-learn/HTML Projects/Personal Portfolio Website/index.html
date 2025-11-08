@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Portfolio</title>
+    <style>
+        header,footer{
+            border: 2px solid red;
+            padding: 5px;
+            color: white;
+            background-color: black;
+            margin:13px;
+            width: auto;
+        }
+        nav{
+            margin: 13px;
+            color: green;
+            background-color: aqua;
+            width: auto;
+        }
+        table,th,td{
+            border: 2px solid red;
+            width: auto;
+        }
+        body{
+            background-color: black;
+            margin: 13px;
+            width: auto;
+        }
+        section{
+            margin: 13px;
+            padding: 5px;
+            color: white;
+            width: auto;
+        }
+        progress {
+            
+            background-color: aquamarine;
+            width: auto ;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My Personal Portfolio</h1>
+    </header>
+    <nav>
+        <a href="#about">About</a> |
+        <a href="#project">Projects</a> |
+        <a href="#blog">Projects</a> |
+        <a href="#skills">Skills</a> |
+        <a href="#contact">Contact</a>
+    </nav>
+    <main>
+        <section>
+            <h2 id="about">Hi! Im AK</h2>
+            <em>🛡️ Decode security puzzles, innovative code, and performing digital forensics—Iron Man's arc reactor powers my tech solutions🔮💻</em>
+        </section>
+        <section>
+            <h3 id="blog">Latest From My Blog</h3>
+            <article>
+                <p>Explore my thoughts on coding, learning, and tech trends.</p>
+                <iframe src="https://app.daily.dev/onyxwizard " width="100%" height="300" frameborder="1"></iframe>
+            </article>
+        </section>
+        <section>
+            <h3>Project Section</h3>
+            <table id="project">
+                <caption>GitHub Projects</caption>
+                <thead>
+                    <th>Title</th>
+                    <th>Link</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🚀Full Stack Web Development - Essential Roadmap</td>
+                        <td><a href="https://github.com/onyxwizard/frontend-learn">🔗Link</a></td>
+                    </tr>
+                    <tr>
+                        <td>🚀Flask Learning Roadmap: From Basics to Microservices</td>
+                        <td><a href="https://github.com/onyxwizard/flask-learning-roadmap">🔗Link</a></td>
+                    </tr>
+                    <tr>
+                        <td>🚀 LeetCode DSA Solutions Repository 🚀</td>
+                        <td><a href="https://github.com/onyxwizard/leetcode">🔗Link</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="contact">
+            <h3>Contact Me</h3>
+            <form action="#" method="post" target="_self">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name"><br><br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email"><br><br>
+                <label for="message">Message:</label>
+                <textarea id="message" name="message"></textarea><br><br>
+            
+                <button  type="submit">Send Message</button>
+            </form>
+        </section>
+        <section id="skills">
+            <h2>Skills</h2>
+            <div>
+                <p>HTML</p>
+                <progress value="90" max="100">90%</progress>
+            </div>
+            <div>
+                <p>CSS</p>
+                <progress value="20" max="100">20%</progress>
+            </div>
+        </section>
+        <footer>
+            <p>
+                <a href="https://github.com/onyxwizard ">🐙 GitHub</a> |
+                <a href="https://medium.com/ @onyxwizard">✍️ Medium</a>
+            </p>
+            <p>&copy; Onyxwizard, All rights reserved 2025.</p>
+        </footer>
+    </main>
+</body>
+</html>

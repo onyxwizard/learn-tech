@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">`
+    <title>Working Web Worker Example</title>
+</head>
+<body>
+    <h2>Web Worker Test Page</h2>
+    <button onclick="startWorker()">Start Worker</button>
+    <p id="result">Result will appear here.</p>
+
+    <script>
+        let worker;
+
+        function startWorker() {
+            // Stop existing worker (if any)
+            if (worker) {
+                worker.terminate();
+                worker = null;
+            }
+
+            // Start new worker
+            worker = new Worker('worker.js');
+
+            // Handle messages from the worker
+            worker.onmessage = function(event) {
+                document.getElementById("result").textContent = "Worker Result: " + event.data;
+            };
+
+            // Handle errors
+            worker.onerror = function(event) {
+                console.error("Worker error:", event.message);
+                document.getElementById("result").textContent = "Error: " + event.message;
+            };
+        }
+    </script>
+</body>
+</html>

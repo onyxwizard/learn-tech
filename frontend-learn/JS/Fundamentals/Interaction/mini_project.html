@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="AK">
+    <title>Interactive Js</title>
+</head>
+<body>
+    <script>
+        alert("Welcome to Onyx Realm!");
+        let name = prompt("Please Enter yor name to register");  //prompt gets user input
+        let output = confirm("Select 'ok' to confirm your name",name); // confirm validates data by asking user to stay with the data or not
+        if(output && name == ""){
+            alert("Empty user name re-enter");
+        }
+        else if (output && name != ""){
+            alert(name)
+        }
+    </script>
+</body>
+</html>

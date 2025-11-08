@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>HTML5 Block & Inline Elements Example</title>
+</head>
+<body>
+
+<!-- 
+🧱 ASCII STRUCTURE HIERARCHY
+
+html
+├── head
+│   ├── meta
+│   └── title
+└── body
+    ├── header
+    ├── nav
+    ├── hr
+    ├── main
+    │   ├── section
+    │   ├── article
+    │   ├── aside
+    │   ├── figure
+    │   │   ├── img
+    │   │   └── figcaption
+    │   ├── blockquote
+    │   ├── div
+    │   ├── pre
+    │   ├── ol
+    │   │   └── li
+    │   ├── ul
+    │   │   └── li
+    │   ├── dl
+    │   │   ├── dt
+    │   │   └── dd
+    │   ├── table
+    │   │   ├── thead
+    │   │   ├── tbody
+    │   │   └── tfoot
+    │   ├── form
+    │   │   ├── label
+    │   │   ├── input
+    │   │   └── button
+    │   ├── noscript
+    │   └── footer
+    ├── address
+    ├── b, i, em, strong, small, cite, q, dfn, abbr, time, code, var, kbd, samp, span
+    ├── img, a, br, script, sub, sup, object, output, select, textarea, map, area, button
+    └── etc.
+-->
+
+<!-- 🟦 BLOCK-LEVEL ELEMENTS -->
+
+<!-- <header>: Intro content, usually contains logo or navigation -->
+<header>
+    <h1>Welcome to My Awesome Website 🌐</h1>
+    <p>Your guide to all things HTML5!</p>
+</header>
+
+<!-- <nav>: Navigation links -->
+<nav>
+    <a href="#section1">Go to Section 1</a> |
+    <a href="#section2">Section 2</a> |
+    <a href="#footer">Jump to Footer</a>
+</nav>
+
+<!-- <hr>: Horizontal Rule / Divider Line -->
+<hr>
+
+<!-- <main>: Main content container (only one per page) -->
+<main>
+
+    <!-- <section>: Thematic grouping of content -->
+    <section id="section1">
+        <h2>📘 Section 1 - Introduction</h2>
+        <p>This section talks about the basics of HTML.</p>
+    </section>
+
+    <!-- <article>: Self-contained composition like blog post -->
+    <article>
+        <h3>Blog Post Title</h3>
+        <p>Written by <strong>John Doe</strong> on <time datetime="2025-04-05">April 5, 2025</time></p>
+        <p>This is an example of an <code>console.log()</code> element in HTML5.</p>
+    </article>
+
+    <!-- <aside>: Sidebar content, related but separate -->
+    <aside>
+        <h4>Sidebar Content</h4>
+        <p>This could be additional info or links relevant to the article.</p>
+    </aside>
+
+    <!-- <figure> + <figcaption>: Image with caption -->
+    <figure>
+        <img src="image.jpg" alt="A beautiful landscape">
+        <figcaption>A stunning mountain view 🏔️</figcaption>
+    </figure>
+
+    <!-- <blockquote>: Quoted section from another source -->
+    <blockquote cite="https://example.com">
+        "This is an inspiring quote from someone important."
+    </blockquote>
+
+    <!-- <div>: Generic block-level container -->
+    <div style="border:1px solid #ccc; padding:10px;">
+        This is a div used for layout purposes.
+    </div>
+
+    <!-- <pre>: Preformatted text, preserves spaces and line breaks -->
+    <pre>
+function helloWorld() {
+    console.log("Hello, world!");
+}
+    </pre>
+
+    <!-- <ol>: Ordered list -->
+    <ol>
+        <li>Step 1: Wake up ☕</li>
+        <li>Step 2: Brush teeth 🪥</li>
+        <li>Step 3: Code some HTML 🧑‍💻</li>
+    </ol>
+
+    <!-- <ul>: Unordered list -->
+    <ul>
+        <li>Milk 🥛</li>
+        <li>Eggs 🥚</li>
+        <li>Bread 🍞</li>
+    </ul>
+
+    <!-- <dl>, <dt>, <dd>: Description list -->
+    <dl>
+        <dt>Term</dt>
+        <dd>Definition of the term</dd>
+        <dt>Another Term</dt>
+        <dd>Another definition here</dd>
+    </dl>
+
+    <!-- <table>: Tabular data -->
+    <table border="1">
+        <thead>
+            <tr><th>Name</th><th>Age</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Alice</td><td>25</td></tr>
+            <tr><td>Bob</td><td>30</td></tr>
+        </tbody>
+        <tfoot>
+            <tr><td>Total</td><td>55</td></tr>
+        </tfoot>
+    </table>
+
+    <!-- <form>: Input form -->
+    <form action="/submit" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+        <button type="submit">Submit 📤</button>
+    </form>
+
+    <!-- <noscript>: Content shown if scripts are disabled -->
+    <noscript>
+        Please enable JavaScript for full functionality.
+    </noscript>
+
+    <!-- <footer>: Bottom section of page -->
+    <footer id="footer">
+        <p>&copy; 2025 MySite. All rights reserved.</p>
+    </footer>
+
+</main>
+
+<!-- <address>: Contact information -->
+<address>
+    Written by <a href="mailto:webmaster@example.com">John Doe</a>.<br>
+    Visit us at:<br>
+    Example.com<br>
+    Box 564, Disneyland<br>
+    USA 🇺🇸
+</address>
+
+<!-- ================================================================================== -->
+<!-- 🟨 INLINE ELEMENTS -->
+
+<!-- <b>: Bold text without semantic importance -->
+<p>This is <b>bold</b> text.</p>
+
+<!-- <i>: Italicized text without semantic importance -->
+<p>This is <i>italic</i> text.</p>
+
+<!-- <em>: Emphasized text -->
+<p>You should <em>really</em> read this carefully.</p>
+
+<!-- <strong>: Strong importance -->
+<p>This is <strong>very important</strong>!</p>
+
+<!-- <small>: Smaller text -->
+<p><small>These terms and conditions apply.</small></p>
+
+<!-- <cite>: Citation of a work -->
+<p>From the book <cite>The Art of Programming</cite>.</p>
+
+<!-- <q>: Short inline quotation -->
+<p>She said <q>Hello there!</q></p>
+
+<!-- <dfn>: Defining instance of a term -->
+<p>The <dfn>Internet</dfn> is a global network...</p>
+
+<!-- <abbr>: Abbreviation -->
+<p>We use <abbr title="HyperText Markup Language">HTML</abbr> every day.</p>
+
+<!-- <time>: Machine-readable time/date -->
+<p>Event starts at <time datetime="2025-04-05T20:00">8 PM on April 5</time>.</p>
+
+<!-- <code>: Inline code snippet -->
+<p>Use the <code>console.log()</code> function.</p>
+
+<!-- <var>: Variable name -->
+<p>The variable <var>x</var> represents the value.</p>
+
+<!-- <kbd>: User keyboard input -->
+<p>Press <kbd>Ctrl + C</kbd> to copy.</p>
+
+<!-- <samp>: Sample output from program -->
+<p>Output: <samp>Hello World</samp></p>
+
+<!-- <img>: Embedded image -->
+<img src="logo.png" alt="Logo">
+
+<!-- <a>: Hyperlink -->
+<a href="https://example.com">Visit Example</a>
+
+<!-- <span>: Generic inline container -->
+<p>This is <span style="color:red;">red text</span> using span.</p>
+
+<!-- <br>: Line break -->
+<p>This is line one<br>This is line two.</p>
+
+<!-- <script>: Embed or reference JS -->
+<script>
+    alert("Inline script executed!");
+</script>
+
+<!-- <sub> and <sup>: Subscript and superscript -->
+<p>Water formula: H<sub>2</sub>O</p>
+<p>Math: x<sup>2</sup> + y<sup>2</sup> = r<sup>2</sup></p>
+
+<!-- <object>: Embedded object -->
+<object data="movie.swf" width="400" height="300"></object>
+
+<!-- <output>: Result of a calculation -->
+<form oninput="result.value=parseInt(a.value)+parseInt(b.value)">
+    <input type="number" name="a" value="10"> +
+    <input type="number" name="b" value="20"> =
+    <output name="result">30</output>
+</form>
+
+<!-- <select>: Dropdown menu -->
+<select>
+    <option value="1">Option One</option>
+    <option value="2">Option Two</option>
+</select>
+
+<!-- <textarea>: Multi-line text input -->
+<textarea rows="4" cols="40">Enter your message here...</textarea>
+
+<!-- <label>: Label for form control -->
+<label for="username">Username:</label>
+<input type="text" id="username">
+
+<!-- <map> and <area>: Client-side image map -->
+<img src="planets.gif" width="145" height="126" usemap="#planetmap">
+<map name="planetmap">
+    <area shape="rect" coords="0,0,82,126" alt="Sun" href="sun.htm">
+</map>
+
+<!-- <button>: Clickable button -->
+<button type="button">Click Me! 🔘</button>
+
+</body>
+</html>

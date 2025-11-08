@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML5 Elements with Image: test.jpg</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        img {
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            padding: 5px;
+        }
+
+        h2 {
+            margin-top: 40px;
+            color: #2c3e50;
+        }
+
+        aside {
+            background-color: #f9f9f9;
+            border-left: 4px solid #3498db;
+            padding: 10px 20px;
+        }
+
+        blockquote {
+            background-color: #f1f1f1;
+            border-left: 5px solid #ccc;
+            padding: 10px 20px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        article {
+            background-color: #fff;
+            padding: 15px;
+            border: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🧱 Page Header -->
+    <header>
+        <h1>🖼️ HTML5 Tags Demonstrated with Image: test.jpg</h1>
+    </header>
+
+    <!-- 🟦 Main Content Area -->
+    <main>
+
+        <!-- 📷 Figure and Caption -->
+        <section>
+            <h2>Figure with Image</h2>
+            <p>The figure element groups media content like images with optional caption.</p>
+            <figure>
+                <img src="test.jpg" alt="Test Image" width="300">
+                <figcaption>Image caption using figcaption</figcaption>
+            </figure>
+        </section>
+
+        <!-- 📝 Aside with Image -->
+        <section>
+            <h2>Sidebar or Related Content</h2>
+            <p>The aside tag contains content indirectly related to main content.</p>
+            <aside>
+                <p>Sidebar or related note:</p>
+                <img src="test.jpg" alt="Sidebar Image" width="200">
+            </aside>
+        </section>
+
+        <!-- 🧱 Div Container -->
+        <section>
+            <h2>Generic Container (div)</h2>
+            <p>The div element can wrap content and images for layout purposes.</p>
+            <div style="border:1px solid #ccc; padding:10px;">
+                <p>Image inside a div container:</p>
+                <img src="test.jpg" alt="Image in div" width="250">
+            </div>
+        </section>
+
+        <!-- 📄 Inline Image in Paragraph -->
+        <section>
+            <h2>Inline Image Inside Text</h2>
+            <p>This is an inline image: 
+                <img src="test.jpg" alt="Inline Test Image" width="50" style="vertical-align: middle;">
+                shown next to text.
+            </p>
+        </section>
+
+        <!-- “” Blockquote with Image -->
+        <section>
+            <h2>Blockquote with Image</h2>
+            <p>The blockquote tag displays quoted content — here it includes an image.</p>
+            <blockquote>
+                <p>"This is a quote next to an image."</p>
+                <img src="test.jpg" alt="Quote Image" width="100" style="float: right;">
+            </blockquote>
+        </section>
+
+        <!-- 📰 Article with Image -->
+        <section>
+            <h2>Article Including Image</h2>
+            <p>The article tag holds self-contained compositions like blog posts or news items.</p>
+            <article>
+                <h3>Article Title</h3>
+                <p>This article includes an image below:</p>
+                <img src="test.jpg" alt="Article Image" width="400">
+                <p>Some descriptive text inside the article.</p>
+            </article>
+        </section>
+
+        <!-- 📂 Section with Image -->
+        <section>
+            <h2>Section Tag with Image</h2>
+            <p>The section tag organizes content into logical sections.</p>
+            <section style="margin-bottom: 20px;">
+                <h3>Section Content</h3>
+                <p>This section contains an image:</p>
+                <img src="test.jpg" alt="Section Image" width="300">
+            </section>
+        </section>
+
+        <!-- 📱 Responsive Image -->
+        <section>
+            <h2>Responsive Image</h2>
+            <p>Use CSS to make images scale based on screen size.</p>
+            <img src="test.jpg" alt="Responsive Test Image" style="width:100%; max-width:600px; height:auto;">
+        </section>
+
+    </main>
+
+    <!-- 🦵 Page Footer -->
+    <footer>
+        <p>&copy; 2025 HTML Demo Page</p>
+    </footer>
+
+</body>
+</html>

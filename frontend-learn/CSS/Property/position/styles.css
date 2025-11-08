@@ -1,0 +1,81 @@
+body{
+    box-sizing: border-box;
+}
+.container{
+    border: 5px solid red;
+    outline-offset: 5px;
+    margin:5px;
+    padding: 75px;
+    width: 90%;
+    height:2000px;
+    position: relative;
+}
+.box1,.box2,.box3,.box4,.box5{
+    color: black;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 800;
+    margin: 90px 0;
+    width:300px;
+    height:100px;
+}
+.box1{
+    background-color: aqua;
+    border-radius: 5px;
+    position: static;
+    border: 5px solid black;
+}
+
+.box2{
+    background-color: rgb(255, 0, 0);
+    border-radius: 5px;
+    position:relative;
+    border: 5px solid black;
+}
+
+.box3{
+    background-color: rgb(183, 0, 255);
+    border-radius: 5px;
+    position:absolute;
+    z-index: 1; /*use to bring item forward or background to another element */
+    border: 5px solid black;
+}
+
+.box4{
+    background-color: rgb(217, 255, 0);
+    border-radius: 5px;
+    position:fixed;
+    border: 5px solid black;
+}
+
+.box5{
+    background-color: rgb(0, 255, 42);
+    border-radius: 5px;
+    position: sticky;
+    top: 0;
+    border: 5px solid black;
+}
+/* 
+.static{
+    position: static;
+    border: 5px solid black;
+}
+
+.relative{
+    position:relative;
+    border: 5px solid black;
+}
+.absolute{
+    position:absolute;
+    border: 5px solid black;
+}
+.fixed{
+    position:fixed;
+    border: 5px solid black;
+}
+
+.sticky{
+    position:sticky;
+    top: 0;
+    border: 5px solid black;
+} */

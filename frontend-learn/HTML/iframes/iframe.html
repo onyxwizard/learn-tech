@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding HTML Iframes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 900px;
+            margin: auto;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #ffffff;
+            padding: 20px;
+            border-left: 5px solid #3498db;
+            margin-bottom: 20px;
+        }
+
+        h1, h2 {
+            color: #2c3e50;
+        }
+
+        iframe {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            border: 2px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        .styled-iframe {
+            width: 100%;
+            max-width: 500px;
+            height: 200px;
+            border: 3px dashed #e74c3c;
+            background-color: #d1ecf1;
+            padding: 10px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🧱 Page Header -->
+    <header>
+        <h1>🧩 HTML Iframe Tutorial</h1>
+        <p>The <code>iframe</code> tag allows you to embed another webpage inside your current page — useful for maps, videos, or external documents.</p>
+    </header>
+
+    <!-- 🟦 Main Content Area -->
+    <main>
+
+        <!-- 📌 What is an Iframe? -->
+        <section>
+            <h2>What is an Iframe?</h2>
+            <p>An <strong>iframe</strong> (inline frame) is used to embed another HTML document within the current one. It creates a rectangular region where the browser displays an external document such as a web page, video, or map.</p>
+
+            <h3>Basic Iframe Example</h3>
+            <iframe src="../image_map/map.html" title="World Map">
+                Sorry, your browser does not support inline frames.
+            </iframe>
+        </section>
+
+        <!-- ⚙️ Iframe Attributes -->
+        <section>
+            <h2>Key Iframe Attributes</h2>
+            <table border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>src</code></td><td>Specifies the URL of the embedded document</td></tr>
+                    <tr><td><code>name</code></td><td>Defines a name for the iframe, used as a target for links</td></tr>
+                    <tr><td><code>width</code>, <code>height</code></td><td>Sets the dimensions of the iframe</td></tr>
+                    <tr><td><code>allow</code></td><td>Specifies permissions like access to camera/microphone</td></tr>
+                    <tr><td><code>loading</code></td><td>Controls lazy loading behavior (<code>lazy</code>, <code>eager</code>)</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 🔗 Linking to an Iframe -->
+        <section>
+            <h2>🔗 Linking to an Iframe Using <code>target</code> and <code>name</code></h2>
+            <p>You can use the <code>name</code> attribute of an iframe to load content into it from a link by setting the <code>target</code> attribute of the anchor tag.</p>
+
+            <h3>Example</h3>
+            <p>Click the link below to load content into the iframe:</p>
+            <p><a href="../image_map/map.html" target="Iframe">🌍 Load World Map</a></p>
+
+            <iframe name="Iframe" width="500" height="300" style="background-color: skyblue;" title="Target Frame">
+                Sorry, your browser does not support inline frames.
+            </iframe>
+        </section>
+
+        <!-- 🎨 Styling Iframe -->
+        <section>
+            <h2>🎨 Styling Iframes with CSS</h2>
+            <p>You can apply styles directly to iframes using the <code>style</code> attribute or through CSS classes.</p>
+
+            <h3>Styled Iframe Example</h3>
+            <iframe class="styled-iframe" src="../image_map/map.html" title="Styled Iframe">
+                Sorry, your browser does not support inline frames.
+            </iframe>
+        </section>
+
+        <!-- 📦 Multiple Iframes -->
+        <section>
+            <h2>📦 Embedding Multiple Iframes</h2>
+            <p>You can embed multiple iframes on the same page, though be cautious about performance impact.</p>
+
+            <h3>Multiple Iframes Example</h3>
+            <iframe src="../image_map/map.html" title="First Iframe" class="styled-iframe"></iframe>
+            <iframe src="../color/color.html" title="Second Iframe" class="styled-iframe"></iframe>
+        </section>
+
+    </main>
+
+    <!-- 🦵 Footer -->
+    <footer>
+        <p>&copy; 2025 HTML Learning Center | Created for educational purposes</p>
+    </footer>
+
+</body>
+</html>

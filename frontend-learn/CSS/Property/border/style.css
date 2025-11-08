@@ -1,0 +1,31 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing:border-box;
+}
+/* h1{
+    border: 2px dashed green;
+    width: 50%;
+    font-size: 3rem;
+    padding: 0.5rem;
+} */
+.container{
+    border: 6px double red;
+    font-size: 1.5rem;
+    margin: 1.5rem 2rem 1.5rem 2rem;
+    padding: 1.5rem;
+    outline: 6px solid blue;
+    /* outline-offset: 10px; we can use negative val to inner border */
+}
+
+.circle{
+    background-color: green;
+    background-image: url(background_img.jpg);
+    background-size: contain;
+    margin: 50px auto;
+    width: 200px;
+    height: 200px;
+    border: 5px dashed rgb(212, 0, 255);
+    border-radius: 100px;
+
+}

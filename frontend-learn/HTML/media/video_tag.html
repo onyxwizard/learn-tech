@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Video Element Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f9f9f9;
+      line-height: 1.6;
+    }
+
+    h1, h2 {
+      color: #333;
+    }
+
+    .video-container {
+      margin-top: 20px;
+      max-width: 700px;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #000;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>HTML Video Element</h1>
+    <p>Demonstration of HTML5 video with multiple attributes and examples.</p>
+  </header>
+
+  <main>
+    <!-- Example 1: Basic Video with Controls -->
+    <section class="video-container">
+      <h2>Basic Video with Controls</h2>
+      <p>The browser will choose the first supported format.</p>
+
+      <!-- 
+        <video>: Embeds a video into the page.
+        controls: Enables built-in play/pause/volume controls.
+      -->
+      <video width="640" height="360" controls>
+        <!-- 
+          <source>: Specifies different video files and their MIME types.
+          Browsers will try them in order until one works.
+        -->
+        <source src="sampleTP.mp4" type="video/mp4">
+        <source src="sampleTP.webm" type="video/webm">
+        <source src="sampleTP.ogv" type="video/ogg">
+
+        <!-- Fallback text if video not supported -->
+        Sorry, your browser does not support the video tag.
+      </video>
+    </section>
+
+    <!-- Example 2: Custom Display Size -->
+    <section class="video-container">
+      <h2>Custom Display Size</h2>
+      <p>You can control video size using the width and height attributes.</p>
+
+      <video width="450" height="250" controls>
+        <source src="sampleTP.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </section>
+
+    <!-- Example 3: Autoplay, Loop, Muted -->
+    <section class="video-container">
+      <h2>Autoplay + Loop + Muted</h2>
+      <p>This video starts automatically and loops continuously. The muted attribute ensures compatibility with browsers like Chrome.</p>
+
+      <video width="450" height="250" autoplay muted loop>
+        <source src="sampleTP.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </section>
+
+    <!-- Example 4: Poster (Thumbnail) -->
+    <section class="video-container">
+      <h2>Video Thumbnail Using poster Attribute</h2>
+      <p>The poster image is shown before the video plays.</p>
+
+      <video width="450" height="250" controls muted poster="tutorials_point.jpg">
+        <source src="sampleTP.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </section>
+  </main>
+
+  <footer>
+    <h2>Browser Format Support</h2>
+    <p>
+      Supported formats: MP4, WebM, Ogg.<br>
+      Always provide multiple sources for better cross-browser compatibility.
+    </p>
+    <table border="1" cellpadding="8" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Browser</th>
+          <th>OGG</th>
+          <th>WebM</th>
+          <th>MP4</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Chrome</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>Edge</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>Safari</td>
+          <td>No</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>Firefox</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>Opera</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>&copy; 2025 OnyxWizard - HTML Video Demo</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Links</title>
+    <!-- <base href="https://onyxwizard.medium.com"> -->
+    <style>
+        body {
+            background-color: black;
+            color: aliceblue;
+            font-family: sans-serif;
+        }
+        section {
+            border: 3px solid green;
+            background-color: gray;
+            padding: 13px;
+            margin: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HTML Links</h1>
+    </header>
+    <main>
+        <section>
+            <h3><output><samp>_blank</samp></output>: Opens the linked document in a new window or tab.</h3>
+            <a href="https://onyxwizard.medium.com/ " target="_blank" rel="noopener">Medium Blog</a>
+        </section>
+        <section>
+            <h3><output><samp>_self</samp></output>: Opens the linked document in the same frame.</h3>
+            <a href="https://onyxwizard.medium.com/ " target="_self">Medium Blog</a>
+        </section>
+        <section>
+            <h3><output><samp>_parent</samp></output>: Opens the linked document in the parent frame.</h3>
+            <a href="https://onyxwizard.medium.com/ " target="_parent">Medium Blog</a>
+        </section>
+        <section>
+            <h3><output><samp>_top</samp></output>: Opens the linked document in the full body of the window.</h3>
+            <a href="https://onyxwizard.medium.com/ " target="_top">Medium Blog</a>
+        </section>
+        <section>
+            <h3><output><samp>targetframe</samp></output>: Opens the linked document in a named targetframe.</h3>
+            <a href="https://onyxwizard.medium.com/ " target="targetframe">Medium Blog</a>
+            <iframe name="targetframe" style="margin-top: 15px; width: 100%; height: 300px;"></iframe>
+        </section>
+        <section>
+            <h3><output><samp>Base Path in Hyperlinks</samp></output>: used to give a base path for all the links.</h3>
+            <p>For instance: we can type path as <em><q>index.html</q></em> instead of <q>https://google.com/index.html</q></p>
+            <a href="https://onyxwizard.medium.com/minimum-operations-to-make-all-elements-zero-leetcode-biweekly-156-a1abc6924f68" target="_blank" rel="noopener">Medium Blog</a>
+        </section>
+        <section>
+            <a href="../image_map/map.jpg" download="image.jpg">Download Blog</a>
+        </section>
+    </main>
+</body>
+</html>

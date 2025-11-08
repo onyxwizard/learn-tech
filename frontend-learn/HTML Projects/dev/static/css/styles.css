@@ -1,0 +1,40 @@
+/* Default val */
+.example {
+    color: white;
+    font-weight: bold;
+    box-sizing: border-box;
+    position: relative;
+    border: 2px dashed #ccc;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 20px;
+}
+
+.fixed-bg {
+    background-image: url(../images/background_img.jpg);
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-attachment: fixed;
+}
+
+
+header,nav,main {
+    border: 2px solid red;
+    margin: 20px;
+    padding: 10px ;
+    background-color: transparent;
+}
+
+header h1{
+    color:blue;
+    background-color: aqua;
+    text-align: center;
+}
+
+nav li {
+    display: block;
+    text-align: center;
+    border: 1px solid green;
+    /* width: fit-content; */
+}
