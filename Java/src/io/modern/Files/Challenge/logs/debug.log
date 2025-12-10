@@ -1,0 +1,5 @@
+INFO: Server started
+DEBUG: Cache warm
+ERROR: Database timeout
+WARN: High latency
+ERROR: Auth failed for user 'admin'
