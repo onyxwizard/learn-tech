@@ -1,265 +1,281 @@
-# 🧩 **Java Synchronization: Why, What, and How**
+# 🧩 **Java Multithreading & Synchronization: The Complete Mental Model**
 
-## 🔍 **Why Do We Need Synchronization?**
+## 🔑 **Core Principle**  
+> **Concurrency bugs are not logic bugs — they’re *timing* and *visibility* bugs.**  
+> Synchronization solves three problems:  
+> 1. **Mutual Exclusion** — only one thread in a critical section  
+> 2. **Visibility** — changes made by one thread are seen by others  
+> 3. **Atomicity** — compound operations appear indivisible  
 
-Let’s begin with a thought experiment:
+## 🌐 **1. Thread Lifecycle & Control**
 
-> Imagine two cashiers updating the same digital cash register:  
-> - Cashier A reads balance = `$100`  
-> - Cashier B *also* reads balance = `$100`  
-> - A adds `$20` → writes `$120`  
-> - B adds `$30` → writes `$130`  
-> **Final balance: `$130`**, but should be **`$150`**.
-
-This is a **race condition**: outcome depends on *timing*, not logic.
-
-✅ **Root cause**:  
-The operation `balance = balance + amount` is **not atomic** — it’s 3 steps:  
-1. **Read** `balance`  
-2. **Compute** `balance + amount`  
-3. **Write** result back  
-
-If two threads interleave these steps, updates are lost.
-
-> 🧠 **Key Insight**:  
-> **Concurrency bugs are not logic bugs — they’re *timing* bugs.**  
-> They may pass 999 tests and fail on the 1000th — in production.
-
-So we need a way to say:  
-> _“Only one thread may execute this sequence at a time.”_
-
-That’s **mutual exclusion** — and it’s the core of synchronization.
-
----
-
-## 🧱 **What Is a Critical Section?**
-
-A **critical section** is any block of code that:
-- Accesses **shared, mutable state** (e.g., a field, a collection)
-- Must execute **atomically** (no thread sees partial updates)
-
-Examples:
+### Thread States (5)
 ```java
-balance += amount;         // reads + writes shared state
-list.add(item);            // mutates shared collection
-if (cache == null) { ... } // read-modify-write pattern
+NEW → RUNNABLE → (WAITING / TIMED_WAITING) → TERMINATED
 ```
+- `NEW`: After `new Thread()`  
+- `RUNNABLE`: After `start()` — ready or running  
+- `WAITING`: `wait()`, `join()` (indefinite)  
+- `TIMED_WAITING`: `sleep()`, `wait(1000)`  
+- `TERMINATED`: `run()` exited
 
-🚫 Never assume a single Java statement is atomic — even `i++` isn’t!
+### Key Control Methods
+| Method | Acts On | Purpose |
+|-------|---------|---------|
+| `t.start()` | `t` | Begin execution (✅ only once!) |
+| `t.interrupt()` | `t` | Set interrupt flag — *cooperative* cancellation |
+| `t.join()` | Calling thread | Wait for `t` to finish |
+| `Thread.sleep(m)` | Current thread | Pause (releases CPU, *not* locks) |
+| `Thread.yield()` | Current thread | Hint: “Let same-priority threads run” |
 
-> ✅ **Rule of thumb**:  
-> If more than one thread can *read or write* the same non-`final` field — you need synchronization.
-
----
-
-## 🔒 **How Synchronization Works: The Monitor Lock**
-
-Java’s primary synchronization mechanism is the **intrinsic lock** (a.k.a. **monitor lock**).
-
-### 🧠 Mental Model: The Key-and-Door Analogy
-
-- Every Java object has a **lock** (like a physical key).  
-- `synchronized (obj) { ... }` means:  
-  > _“Get the key to `obj`. If someone else has it, wait.  
-  > Once inside, do your work.  
-  > When you leave, return the key.”_
-
+### ✅ **Interruption Protocol (Cooperative Cancellation)**
 ```java
-Object lock = new Object();
-
-// Thread-safe increment
-synchronized (lock) {
-    count++;  // Only one thread here at a time
-}
-```
-
-✅ This gives us:
-- **Mutual exclusion**: Only one thread holds the lock at a time.
-- **Visibility**: Changes made inside the block are *guaranteed visible* to the next thread that acquires the same lock.
-- **Atomicity**: The entire block appears to execute as one unit.
-
-> 🔑 **Critical nuance**:  
-> The lock is on the **object**, not the code.  
-> Two threads can enter *different* `synchronized` blocks *if they use different lock objects*.
-
----
-
-## 🔄 **Three Ways to Use `synchronized`**
-
-| Form | Syntax | Lock Object | Use Case |
-|------|--------|-------------|----------|
-| **Block** | `synchronized (obj) { … }` | `obj` (any object) | Fine-grained control; lock on private field |
-| **Instance method** | `public synchronized void foo()` | `this` | Protect instance state |
-| **Static method** | `public static synchronized void bar()` | `MyClass.class` | Protect class-level (static) state |
-
-### Example Contrast:
-```java
-class Counter {
-    private int count = 0;
-    private final Object lock = new Object(); // ✅ Preferred
-
-    // ❌ Risky: Locks on 'this' — external code could sync on your instance!
-    public synchronized void badIncrement() { count++; }
-
-    // ✅ Safe: Private lock object — encapsulated
-    public void goodIncrement() {
-        synchronized (lock) { count++; }
+// In worker thread:
+while (!Thread.currentThread().isInterrupted()) {
+    doWork();
+    try { Thread.sleep(100); } 
+    catch (InterruptedException e) {
+        Thread.currentThread().interrupt(); // 🔑 Restore flag
+        return; // Exit cleanly
     }
-
-    // ✅ For static state
-    private static int totalCount = 0;
-    public static synchronized void incrementTotal() { totalCount++; }
 }
 ```
 
-> ✅ **Best practice**:  
-> Use **private final lock objects** — never expose your lock to outside code.
+> 🚫 **Never use**: `suspend()`, `resume()`, `stop()` — deprecated since Java 1.2.
 
 ---
 
-## 🌐 **The Happens-Before Guarantee**
+## 🔐 **2. Synchronization: Protecting Shared State**
 
-Synchronization isn’t just about exclusion — it’s about **memory visibility**.
+### When Is Sync Needed?
+✅ **Only when**:  
+- Multiple threads access **shared**, **mutable** state  
+- At least one access is a **write**
 
-Without synchronization, threads may see **stale cached values** due to:
-- CPU registers
-- Core-local caches
-- Compiler reordering
+🚫 **Not needed for**:  
+- Immutable data (`final`, `String`, `LocalDate`)  
+- Thread-confined data (only one thread accesses it)  
+- Thread-safe collections (`ConcurrentHashMap`, `CopyOnWriteArrayList`)
 
-Java’s **happens-before** relationship ensures:
-> _If action A **happens-before** action B, then changes from A are visible to B._
+## A. **Intrinsic Locks (`synchronized`)**
 
-✅ `synchronized` establishes happens-before:
-- **Unlock** of a monitor *happens-before* **lock** of the same monitor.
-
-So:
+#### Block-Level (Recommended)
 ```java
-// Thread 1
-synchronized (lock) { x = 1; }  // Write
+private final Object lock = new Object(); // ✅ Private, final
 
-// Thread 2
-synchronized (lock) { System.out.println(x); }  // Read → sees 1, not 0
-```
-
-This is why `volatile` and `synchronized` are the two pillars of visibility.
-
----
-
-## 📡 **Inter-Thread Communication: `wait()` & `notify()`**
-
-Sometimes, threads don’t just need to *exclude* — they need to *signal*.
-
-Example: **Producer-Consumer**
-- Producer: “I’ve added an item — wake up a consumer!”
-- Consumer: “No items — wait until notified.”
-
-Java provides:
-- `obj.wait()` → **releases lock** and waits
-- `obj.notify()` → wakes **one** waiting thread
-- `obj.notifyAll()` → wakes **all** waiting threads
-
-### 🔑 Critical Rules:
-1. Must be called **inside a `synchronized` block** on `obj`.
-2. Always check condition in a **`while` loop** (spurious wakeups!).
-3. Prefer `notifyAll()` unless you’re certain only one thread needs waking.
-
-```java
-synchronized (buffer) {
-    while (buffer.isEmpty()) {
-        buffer.wait(); // releases lock, waits
+void update() {
+    synchronized (lock) { // 🔑 Lock on private object
+        // Critical section: read-modify-write
+        count++;
     }
-    Item item = buffer.remove();
-    buffer.notifyAll(); // signal producers
 }
 ```
 
-> 🧠 **Analogy**:  
-> `wait()` = “I’m done with the lock; wake me when the state might have changed.”  
-> `notify()` = “The state changed — someone may now be able to proceed.”
-
----
-
-## ⚠️ **Deadlock: The Silent Killer**
-
-Even with synchronization, you can create **deadlock**:
-
+#### Method-Level (Convenience — use cautiously)
 ```java
-// Thread 1                // Thread 2
-synchronized (A) {         synchronized (B) {
-    synchronized (B) {         synchronized (A) {
-        ...                     ...
-    }                       }
+public synchronized void update() { ... }        // Locks on 'this'
+public static synchronized void update() { ... } // Locks on MyClass.class
+```
+
+#### ✅ Key Properties
+- **Reentrant**: same thread can re-acquire  
+- **Automatic release**: even on exception  
+- **Happens-before**: ensures visibility
+
+## B. **Explicit Locks (`ReentrantLock`)**
+
+#### When to Use
+- Need **fairness** (`new ReentrantLock(true)`)  
+- Need **timeout** (`tryLock(1, SECONDS)`)  
+- Need **interruptible acquire** (`lockInterruptibly()`)  
+- Need **multiple conditions** (`newCondition()`)
+
+#### Safe Usage Pattern
+```java
+private final ReentrantLock lock = new ReentrantLock();
+
+void update() {
+    lock.lock(); // Blocks until acquired
+    try {
+        count++;
+    } finally {
+        lock.unlock(); // ✅ Must be in finally
+    }
 }
 ```
 
-Both hold one lock and wait for the other → eternal wait.
+#### ❌ Dangerous Anti-Pattern
+```java
+if (lock.tryLock()) {
+    lock.lock();   // ❌ Double-lock → leaked lock
+    ...
+    lock.unlock(); // Only decrements hold count — not fully released!
+}
+```
 
-🔍 **Four conditions for deadlock** (Coffman):
-1. **Mutual exclusion** (locks are exclusive)
-2. **Hold and wait** (hold one lock, wait for another)
-3. **No preemption** (can’t force-release a lock)
-4. **Circular wait** (A→B→A)
+## C. **Lock-Free Synchronization**
 
-✅ **To prevent deadlock**:
-- **Acquire locks in a fixed global order** (e.g., always A before B)
-- Use **timeout** (`tryLock(1, SECONDS)`)
-- Avoid nested locks when possible
-
----
-
-## 🛡️ **Beyond `synchronized`: Modern Alternatives**
-
-| Tool | When to Use | Why Better |
-|------|-------------|------------|
-| `java.util.concurrent.atomic.*` | Single variables (counters, flags) | Lock-free, higher throughput |
-| `ReentrantLock` | Need fairness, tryLock, or multiple conditions | Explicit, flexible, interruptible |
-| `ReadWriteLock` | Many readers, few writers | Allows concurrent reads |
-| `StampedLock` (Java 8+) | Optimistic reads | Even faster read-heavy workloads |
-| `ConcurrentHashMap` | Shared maps | Thread-safe without external sync |
-
-#### Example: `AtomicInteger`
+#### Atomic Variables (Best for counters, flags)
 ```java
 private final AtomicInteger count = new AtomicInteger();
 
-public void increment() {
-    count.incrementAndGet(); // atomic, lock-free, visible
+void increment() {
+    count.incrementAndGet(); // ✅ Lock-free, atomic, visible
 }
 ```
 
-✅ No locks → no deadlock, no priority inversion, better scalability.
-
----
-
-### 🧭 **Synchronization Best Practices**
-
-| Do ✅ | Don’t ❌ |
-|------|----------|
-| Minimize critical section size | Hold locks while doing I/O or long computation |
-| Use private final lock objects | Sync on `this`, `String`, or publicly accessible objects |
-| Prefer `notifyAll()` over `notify()` | Risk missing the only waiting thread |
-| Document locking strategy | Leave future maintainers guessing |
-| Use `java.util.concurrent` when possible | Reinvent `ConcurrentHashMap` |
-
-> 🔑 **Golden Rule**:  
-> **Synchronize *all* accesses to shared mutable state — reads *and* writes.**  
-> One unsynchronized read can see a partially constructed object.
-
----
-
-### 🧩 **When Is Synchronization *Not* Needed?**
-
-You can avoid synchronization entirely if:
-- Data is **immutable** (`final` fields, `String`, `LocalDate`)
-- Data is **thread-confined** (only one thread accesses it)
-- Data is accessed via **`ThreadLocal`**
-- You use **lock-free data structures** (`ConcurrentLinkedQueue`, `AtomicReference`)
-
-Example:
+#### Volatile (For single-variable visibility)
 ```java
-// Immutable — safe to share
-record Point(int x, int y) {} 
+private volatile boolean ready = false; // ✅ Writes visible to all threads
 
-// Thread-local — each thread has its own copy
-private static final ThreadLocal<SimpleDateFormat> formatter = 
-    ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd"));
+// Thread-1
+data = 42;
+ready = true; // Happens-before: data write → ready write
+
+// Thread-2
+if (ready) {
+    System.out.println(data); // ✅ Always sees 42
+}
 ```
+
+> 🔑 **Rule**: `volatile` ≠ atomic. Use for flags or *single* writes — not `i++`.
+
+---
+
+## 📡 **3. Inter-Thread Communication**
+
+### `wait()` / `notify()` — Low-Level Coordination
+
+#### Safe Pattern (✅ Always use `while` + `notifyAll()`)
+```java
+private final Object lock = new Object();
+private boolean dataReady = false;
+
+void produce(Item item) {
+    synchronized (lock) {
+        queue.add(item);
+        dataReady = true;
+        lock.notifyAll(); // ✅ Wake all waiters
+    }
+}
+
+Item consume() throws InterruptedException {
+    synchronized (lock) {
+        while (!dataReady) { // ✅ while, not if!
+            lock.wait();     // Releases lock, waits
+        }
+        dataReady = false;
+        return queue.remove();
+    }
+}
+```
+
+### Modern Alternatives (✅ Prefer these)
+| Need | Tool |
+|------|------|
+| Producer-consumer | `BlockingQueue` (`ArrayBlockingQueue`, `LinkedBlockingQueue`) |
+| One-time signal | `CountDownLatch` |
+| Barrier (N threads wait) | `CyclicBarrier` |
+| Async signaling | `CompletableFuture` |
+
+#### Example: `BlockingQueue` (No sync needed!)
+```java
+BlockingQueue<Item> queue = new ArrayBlockingQueue<>(10);
+
+// Producer
+queue.put(item); // Blocks if full
+
+// Consumer
+Item item = queue.take(); // Blocks if empty
+```
+
+---
+
+## 🏊‍♂️ **4. Thread Pools & Task-Based Concurrency**
+
+### Why Pools?
+- ✅ Lower latency (reuse threads)  
+- ✅ Resource control (cap threads)  
+- ✅ Automatic cleanup
+
+### Built-in Executors
+| Pool | Use Case |
+|------|----------|
+| `newFixedThreadPool(n)` | CPU-bound, steady load |
+| `newCachedThreadPool()` | I/O bursts, short tasks |
+| `newSingleThreadExecutor()` | Sequential execution (logs, events) |
+| `newScheduledThreadPool(n)` | Timers, periodic tasks |
+
+#### Safe Pattern
+```java
+ExecutorService pool = Executors.newFixedThreadPool(4);
+
+// Submit tasks
+Future<String> future = pool.submit(() -> compute());
+
+// Shutdown gracefully
+pool.shutdown();
+if (!pool.awaitTermination(30, SECONDS)) {
+    pool.shutdownNow();
+}
+```
+
+### 🚀 **Virtual Threads (Java 21+)**
+```java
+try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+    IntStream.range(0, 10_000).forEach(i -> 
+        executor.submit(() -> {
+            Thread.sleep(1000); // Blocks virtual thread, not OS thread!
+            return i;
+        })
+    );
+} // Auto-shutdown
+```
+
+✅ Millions of tasks, no tuning, same `ExecutorService` API.
+
+---
+
+## ⚠️ **5. Common Pitfalls & Fixes**
+
+| Pitfall | Symptom | Fix |
+|--------|---------|-----|
+| **Race condition** | Intermittent wrong results | Sync all shared mutable state |
+| **Visibility failure** | Stale reads | Use `synchronized`, `volatile`, or `final` |
+| **Deadlock** | App freezes | Avoid nested locks; use lock ordering |
+| **Starvation** | Thread never runs | Use fair locks (`ReentrantLock(true)`) or `CallerRunsPolicy` |
+| **Leaked lock** | Thread blocks forever | Always `unlock()` in `finally` |
+| **Ignoring `InterruptedException`** | Thread can’t be canceled | Restore flag or exit |
+
+---
+
+## 🧭 **6. Decision Flowchart: Which Tool to Use?**
+
+```mermaid
+graph TD
+    A[Need concurrency?] -->|No| B[Single-threaded]
+    A -->|Yes| C{Shared mutable state?}
+    C -->|No| D[Thread-local / immutable]
+    C -->|Yes| E{Operation type?}
+    E -->|Simple exclusion| F[synchronized block]
+    E -->|Single variable| G[AtomicInteger / volatile]
+    E -->|Compound + timing| H[ReentrantLock]
+    E -->|Producer-consumer| I[BlockingQueue]
+    E -->|Coordination| J[CountDownLatch / CyclicBarrier]
+    F --> K[Task-based?]
+    K -->|Yes| L[ExecutorService]
+    K -->|No| M[Raw threads — avoid]
+```
+
+## ✅ **Golden Rules of Java Concurrency**
+
+1. **Design for correctness first** — optimize only after profiling.  
+2. **Synchronize *all* accesses** (reads *and* writes) to shared mutable state.  
+3. **Prefer immutable or thread-confined data** over synchronization.  
+4. **Use high-level utilities** (`java.util.concurrent`) over low-level `wait()`/`notify()`.  
+5. **Never use deprecated methods** (`stop()`, `suspend()`, `resume()`).  
+6. **Interruption is cooperative** — always check and respond.  
+7. **Lock on the scope of the data**:  
+   - Instance field → instance lock  
+   - Static field → class lock  
+   - Global state → private static lock
