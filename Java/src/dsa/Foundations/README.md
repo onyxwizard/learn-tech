@@ -754,11 +754,6 @@ Try analyzing these:
 > 🍔 **Problem 3**: Multiply two n×n matrices.  
 > → Time? Why is it O(n³)? Can you do better?
 
-Want me to:
-- Turn this into a visual cheat sheet?
-- Show how to calculate Big O for nested loops?
-- Map this to LeetCode problems (e.g., “Two Sum”, “Binary Search”)?
-
 Just say the word — we’ll keep building! 🛠️
 
 ---
