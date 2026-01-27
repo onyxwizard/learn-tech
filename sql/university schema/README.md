@@ -76,6 +76,9 @@ graph TB
     classDef transactionTables fill:#2D3047,stroke:#4ECDC4,stroke-width:2px,color:#ffffff
     classDef referenceTables fill:#2D3047,stroke:#FFEAA7,stroke-width:2px,color:#ffffff
 ```
+<img width="933" height="829" alt="University_schema" src="https://github.com/user-attachments/assets/63c17c65-55d2-4b8e-afd6-5059463e10c5" />
+
+
 
 ## 📋 Table Details & Relationships
 
