@@ -1,0 +1,252 @@
+// =====================================================
+// 🍃 MongoDB Shell Challenge: Library Management System
+// =====================================================
+// Before running these commands, make sure you have:
+// 1. Started your MongoDB server
+// 2. Opened mongosh
+// 3. Run the setup from the challenge to create the 'library' db
+//    and insert the sample books & members collections.
+// -----------------------------------------------------
+
+// =====================================================
+// 1. 📊 DATABASE & COLLECTION BASICS
+// =====================================================
+
+// Show all databases (verify 'library' appears)
+db.getMongo().getDBs()
+
+// Switch to (or create) the library database
+use('library')
+
+// List all collections in the current database
+db.getCollectionNames()
+
+// Create a temporary 'staff' collection (then we'll drop it later)
+db.createCollection("staff")
+
+// Confirm it was created
+db.getCollectionNames()
+
+// -----------------------------------------------------
+
+// =====================================================
+// 2. 📥 INSERTING DOCUMENTS
+// =====================================================
+
+// Insert a new book (match existing field names: lowercase)
+db.books.insertOne({
+  title: "The Martian",
+  author: "Andy Weir",
+  genre: "Sci-Fi",
+  publishedYear: 2011,
+  copiesAvailable: 2,
+  totalCopies: 3,
+  location: "Section C, Shelf 6"   // string, not array
+})
+
+// Insert a new member (lowercase fields, joined as today)
+db.members.insertOne({
+  name: "Eve Adams",
+  email: "eve@email.com",
+  joined: new Date(),               // current date/time
+  active: true,
+  borrowedBooks: []
+})
+
+// -----------------------------------------------------
+
+// =====================================================
+// 3. 🔍 FINDING DOCUMENTS (with filters, projections)
+// =====================================================
+
+// 3.1 Find all Sci-Fi books
+db.books.find({ genre: "Sci-Fi" })
+
+// 3.2 Find books published after 1950
+db.books.find({ publishedYear: { $gt: 1950 } })
+
+// 3.3 Find books with zero copies available (out of stock)
+db.books.find({ copiesAvailable: 0 })
+
+// 3.4 Find members who joined in 2024 (using dates)
+db.members.find({
+  joined: {
+    $gte: new Date("2024-01-01"),
+    $lt: new Date("2025-01-01")
+  }
+})
+
+// 3.5 Find all books, show only title, author, publishedYear (hide _id)
+db.books.find(
+  {},
+  { _id: 0, title: 1, author: 1, publishedYear: 1 }
+)
+
+// 3.6 Find active members who have borrowed at least one book
+//     (borrowedBooks array not empty)
+db.members.find({
+  active: true,
+  borrowedBooks: { $ne: [] }   // $ne: [] means array is not empty
+})
+
+// -----------------------------------------------------
+
+// =====================================================
+// 4. ⚖️ COMPARISON & LOGICAL OPERATORS
+// =====================================================
+
+// 4.1 Books with copiesAvailable <= 1
+db.books.find({ copiesAvailable: { $lte: 1 } })
+
+// 4.2 Books that are either "Classic" OR "Fantasy" (using $in)
+db.books.find({ genre: { $in: ["Classic", "Fantasy"] } })
+
+// 4.3 Books that are NOT "Dystopian"
+db.books.find({ genre: { $ne: "Dystopian" } })
+
+// 4.4 Members who joined before 2024-01-01 OR are not active
+db.members.find({
+  $or: [
+    { joined: { $lt: new Date("2024-01-01") } },
+    { active: false }
+  ]
+})
+
+// 4.5 Members who are active AND have borrowed at least one book
+//     (implicit AND with two conditions)
+db.members.find({
+  active: true,
+  borrowedBooks: { $ne: [] }
+})
+
+// -----------------------------------------------------
+
+// =====================================================
+// 5. 🔃 SORTING & LIMITING
+// =====================================================
+
+// 5.1 All books sorted by publishedYear (oldest first)
+db.books.find().sort({ publishedYear: 1 })
+
+// 5.2 The 3 most recently published books
+db.books.find().sort({ publishedYear: -1 }).limit(3)
+
+// 5.3 The member who joined most recently
+db.members.find().sort({ joined: -1 }).limit(1)
+
+// -----------------------------------------------------
+
+// =====================================================
+// 6. ✏️ UPDATING DOCUMENTS
+// =====================================================
+
+// 6.1 Increase copiesAvailable by 1 for "The Martian"
+db.books.updateOne(
+  { title: "The Martian" },
+  { $inc: { copiesAvailable: 1 } }
+)
+
+// 6.2 Add a 'pages' field to all books (default 300)
+db.books.updateMany(
+  { pages: { $exists: false } },
+  { $set: { pages: 300 } }
+)
+
+// 6.3 Mark member with email "bob@email.com" as inactive
+db.members.updateOne(
+  { email: "bob@email.com" },
+  { $set: { active: false } }
+)
+
+// 6.4 Let Alice borrow "The Great Gatsby" (add subdocument to her borrowedBooks)
+db.members.updateOne(
+  { name: "Alice Johnson" },
+  {
+    $push: {
+      borrowedBooks: {
+        title: "The Great Gatsby",
+        borrowed: new Date(),
+        due: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) // 14 days later
+      }
+    }
+  }
+)
+
+// 6.5 Remove the 'joined' field from all members (temporarily)
+db.members.updateMany(
+  {},
+  { $unset: { joined: "" } }
+)
+
+// (Optional: add it back if needed for later queries)
+
+// -----------------------------------------------------
+
+// =====================================================
+// 7. 🗑️ DELETING DOCUMENTS
+// =====================================================
+
+// 7.1 Delete a single book: "Neuromancer"
+db.books.deleteOne({ title: "Neuromancer" })
+
+// 7.2 Delete all members who are not active
+//     First check which ones are inactive:
+db.members.find({ active: false })
+//     Then delete them:
+db.members.deleteMany({ active: false })
+
+// 7.3 Drop the temporary 'staff' collection
+db.staff.drop()
+
+// -----------------------------------------------------
+
+// =====================================================
+// 8. 📇 INDEXES
+// =====================================================
+
+// 8.1 Create an index on the 'author' field in books collection
+db.books.createIndex({ author: 1 })
+
+// 8.2 View all indexes on books collection
+db.books.getIndexes()
+
+// 8.3 Explain query for a specific author BEFORE index (if index not yet created)
+db.books.find({ author: "Frank Herbert" }).explain("executionStats")
+// Note the 'totalDocsExamined' – should be all documents.
+
+// 8.4 (Re)create the index (if you dropped it) and explain AFTER
+db.books.createIndex({ author: 1 })
+db.books.find({ author: "Frank Herbert" }).explain("executionStats")
+// Now 'totalDocsExamined' should be much smaller (ideally 1).
+
+// 8.5 Drop the index on author
+db.books.dropIndex("author_1")
+
+// -----------------------------------------------------
+
+// =====================================================
+// 9. 🎯 BONUS / ADVANCED
+// =====================================================
+
+// 9.1 Use regex to find books whose title contains "the" (case‑insensitive)
+db.books.find({ title: { $regex: "the", $options: "i" } })
+
+// 9.2 Count total number of books in each genre (aggregation)
+db.books.aggregate([
+  { $group: { _id: "$genre", count: { $sum: 1 } } }
+])
+
+// 9.3 Create a capped collection named 'logs' (size 1MB, max 100 documents)
+db.createCollection("logs", {
+  capped: true,
+  size: 1048576,      // 1 MB in bytes
+  max: 100
+})
+
+// Insert a few log entries (old ones will be overwritten when full)
+db.logs.insertOne({ event: "Server started", timestamp: new Date() })
+db.logs.insertOne({ event: "User login", timestamp: new Date() })
+
+// =====================================================
+// ✅ End of Challenge Solutions
+// =====================================================

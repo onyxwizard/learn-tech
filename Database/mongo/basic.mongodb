@@ -1,0 +1,324 @@
+/**
+ * @author onyxwizard
+ * @date 19-02-2026
+ */
+
+// MongoDB Shell Challenge: Library Management System
+// Run this script in mongosh using: load("library_challenge.mongodb")
+// or copy-paste into the shell.
+
+// ============================================
+// Setup: Switch to library database
+// ============================================
+use('library')
+
+// Insert sample data (if not already present)
+// Books
+db.books.insertMany([
+  {
+    title: "The Hobbit",
+    author: "J.R.R. Tolkien",
+    genre: "Fantasy",
+    publishedYear: 1937,
+    copiesAvailable: 4,
+    totalCopies: 7,
+    location: "Section A, Shelf 3"
+  },
+  {
+    title: "1984",
+    author: "George Orwell",
+    genre: "Dystopian",
+    publishedYear: 1949,
+    copiesAvailable: 2,
+    totalCopies: 5,
+    location: "Section B, Shelf 1"
+  },
+  {
+    title: "To Kill a Mockingbird",
+    author: "Harper Lee",
+    genre: "Classic",
+    publishedYear: 1960,
+    copiesAvailable: 0,
+    totalCopies: 3,
+    location: "Section A, Shelf 2"
+  },
+  {
+    title: "Dune",
+    author: "Frank Herbert",
+    genre: "Sci-Fi",
+    publishedYear: 1965,
+    copiesAvailable: 3,
+    totalCopies: 6,
+    location: "Section C, Shelf 4"
+  },
+  {
+    title: "The Great Gatsby",
+    author: "F. Scott Fitzgerald",
+    genre: "Classic",
+    publishedYear: 1925,
+    copiesAvailable: 1,
+    totalCopies: 2,
+    location: "Section A, Shelf 2"
+  },
+  {
+    title: "Neuromancer",
+    author: "William Gibson",
+    genre: "Sci-Fi",
+    publishedYear: 1984,
+    copiesAvailable: 0,
+    totalCopies: 1,
+    location: "Section C, Shelf 5"
+  }
+]);
+
+// Members
+db.members.insertMany([
+  {
+    name: "Alice Johnson",
+    email: "alice@email.com",
+    joined: new Date("2023-01-15"),
+    active: true,
+    borrowedBooks: [
+      { title: "The Hobbit", borrowed: new Date("2025-02-01"), due: new Date("2025-02-15") }
+    ]
+  },
+  {
+    name: "Bob Smith",
+    email: "bob@email.com",
+    joined: new Date("2023-03-20"),
+    active: true,
+    borrowedBooks: []
+  },
+  {
+    name: "Carol White",
+    email: "carol@email.com",
+    joined: new Date("2024-06-10"),
+    active: false,
+    borrowedBooks: [
+      { title: "Dune", borrowed: new Date("2025-01-20"), due: new Date("2025-02-03") },
+      { title: "1984", borrowed: new Date("2025-01-25"), due: new Date("2025-02-08") }
+    ]
+  },
+  {
+    name: "David Brown",
+    email: "david@email.com",
+    joined: new Date("2024-09-05"),
+    active: true,
+    borrowedBooks: []
+  }
+]);
+
+// ============================================
+// 1. Database & Collection Basics
+// ============================================
+// Show all databases
+db.getMongo().getDBs();
+
+// Show collections in library
+db.getCollectionNames();
+
+// Create a new collection named staff (even if empty)
+db.createCollection("staff");
+
+// Drop the staff collection
+db.staff.drop();
+
+// ============================================
+// 2. Inserting Documents
+// ============================================
+// Insert a new book: "The Martian"
+db.books.insertOne({
+  title: "The Martian",
+  author: "Andy Weir",
+  genre: "Sci-Fi",
+  publishedYear: 2011,
+  copiesAvailable: 2,
+  totalCopies: 3,
+  location: "Section C, Shelf 6"
+});
+
+// Insert a new member: Eve Adams
+db.members.insertOne({
+  name: "Eve Adams",
+  email: "eve@email.com",
+  joined: new Date(),          // today's date
+  active: true,
+  borrowedBooks: []
+});
+
+// ============================================
+// 3. Finding Documents (with filters, projections)
+// ============================================
+// Find all books that are Sci-Fi
+db.books.find({ genre: "Sci-Fi" }).pretty();
+
+// Find all books published after 1950
+db.books.find({ publishedYear: { $gt: 1950 } }).pretty();
+
+// Find all books with zero copies available (out of stock)
+db.books.find({ copiesAvailable: 0 }).pretty();
+
+// Find members who joined in 2024
+db.members.find({
+  joined: {
+    $gte: new Date("2024-01-01"),
+    $lt: new Date("2025-01-01")
+  }
+}).pretty();
+
+// Find all books, but show only title, author, and publishedYear (exclude _id)
+db.books.find(
+  {},
+  { title: 1, author: 1, publishedYear: 1, _id: 0 }
+).pretty();
+
+// Find members who are active and have borrowed at least one book (array not empty)
+db.members.find({
+  active: true,
+  borrowedBooks: { $ne: [] }
+}).pretty();
+
+// ============================================
+// 4. Comparison & Logical Operators
+// ============================================
+// Find books where copiesAvailable is less than or equal to 1
+db.books.find({ copiesAvailable: { $lte: 1 } }).pretty();
+
+// Find books that are either "Classic" or "Fantasy"
+db.books.find({ genre: { $in: ["Classic", "Fantasy"] } }).pretty();
+
+// Find books that are not "Dystopian"
+db.books.find({ genre: { $ne: "Dystopian" } }).pretty();
+
+// Find members who joined before 2024-01-01 OR are not active
+db.members.find({
+  $or: [
+    { joined: { $lt: new Date("2024-01-01") } },
+    { active: false }
+  ]
+}).pretty();
+
+// Find members who are active AND have borrowed at least one book (using $and)
+db.members.find({
+  $and: [
+    { active: true },
+    { borrowedBooks: { $ne: [] } }
+  ]
+}).pretty();
+
+// ============================================
+// 5. Sorting & Limiting
+// ============================================
+// List all books sorted by publishedYear (oldest first)
+db.books.find().sort({ publishedYear: 1 }).pretty();
+
+// Get the 3 most recently published books (sort descending, limit 3)
+db.books.find().sort({ publishedYear: -1 }).limit(3).pretty();
+
+// Find the member who joined most recently (use sort and limit)
+db.members.find().sort({ joined: -1 }).limit(1).pretty();
+
+// ============================================
+// 6. Updating Documents
+// ============================================
+// Increase copiesAvailable by 1 for "The Martian"
+db.books.updateOne(
+  { title: "The Martian" },
+  { $inc: { copiesAvailable: 1 } }
+);
+
+// Add a new field 'pages' to all books (default 300)
+db.books.updateMany(
+  {},
+  { $set: { pages: 300 } }
+);
+
+// Mark member with email "bob@email.com" as inactive
+db.members.updateOne(
+  { email: "bob@email.com" },
+  { $set: { active: false } }
+);
+
+// Add a new book to Alice Johnson's borrowedBooks
+let today = new Date();
+let dueDate = new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000); // 14 days later
+db.members.updateOne(
+  { name: "Alice Johnson" },
+  {
+    $push: {
+      borrowedBooks: {
+        title: "The Great Gatsby",
+        borrowed: today,
+        due: dueDate
+      }
+    }
+  }
+);
+
+// Remove the 'joined' field from all members (temporarily)
+db.members.updateMany(
+  {},
+  { $unset: { joined: "" } }
+);
+
+// ============================================
+// 7. Deleting Documents
+// ============================================
+// Delete the book "Neuromancer"
+db.books.deleteOne({ title: "Neuromancer" });
+
+// Delete all members who are not active
+db.members.deleteMany({ active: false });
+
+// Drop the staff collection if it still exists
+db.staff.drop();
+
+// ============================================
+// 8. Indexes
+// ============================================
+// Drop existing index on author (if any) to demonstrate before/after
+db.books.dropIndex({ author: 1 });
+
+// Explain query for author "Frank Herbert" before index
+print("=== Explain BEFORE index ===");
+db.books.find({ author: "Frank Herbert" }).explain("executionStats");
+
+// Create an index on the author field
+db.books.createIndex({ author: 1 });
+
+// View all indexes on books collection
+db.books.getIndexes();
+
+// Explain query for author "Frank Herbert" after index
+print("=== Explain AFTER index ===");
+db.books.find({ author: "Frank Herbert" }).explain("executionStats");
+
+// Drop the index on author
+db.books.dropIndex({ author: 1 });
+
+// ============================================
+// 9. Bonus / Advanced
+// ============================================
+// Use $regex to find books whose title contains "the" (case‑insensitive)
+db.books.find({ title: { $regex: "the", $options: "i" } }).pretty();
+
+// Count total number of books in each genre (aggregation)
+db.books.aggregate([
+  { $group: { _id: "$genre", count: { $sum: 1 } } }
+]);
+
+// Create a capped collection named logs (size 1MB, max 100 documents)
+db.createCollection("logs", { capped: true, size: 1048576, max: 100 });
+
+// Insert a few log entries
+db.logs.insertMany([
+  { message: "Library opened", timestamp: new Date() },
+  { message: "New member registered", timestamp: new Date() },
+  { message: "Book returned", timestamp: new Date() }
+]);
+
+// Verify capped collection behaviour (optional)
+print("Initial logs count:", db.logs.countDocuments());
+// Old entries will be overwritten when full; we won't test that here.
+
+print("All tasks completed!");
