@@ -1,320 +1,383 @@
-# 📘 **Chapter 1: Spring in the Real World - Complete Guide**
+Let's dive into the Spring Framework's **IoC Container** – the heart of Spring! 🌱 Think of it as a magical box that creates and manages your application's objects (beans) and wires them together. Instead of your objects creating their dependencies, the container **injects** them. This is **Inversion of Control (IoC)** – your code is no longer in control of instantiation; the container is! 💉
 
-## 🎓 **What You'll Learn in This Chapter:**
+---
 
-### 1. **The "Why" Behind Frameworks**
-Frameworks aren't just tools—they're **productivity multipliers**. Think of them like this:
+## 1. Introduction to the Spring IoC Container and Beans 🌱
 
-**Analogy**: You're building a house:
-- **Without a framework**: You make bricks, cut wood, mix cement, design plumbing, wire electricity...
-- **With a framework**: You get pre-made walls, pre-wired electrical systems, pre-plumbed bathrooms. You just assemble and customize.
+*   **IoC (Inversion of Control):** Objects don't create their dependencies; they receive them from an external entity (the container).
+*   **DI (Dependency Injection):** The main way IoC is achieved. Dependencies are "injected" via constructor arguments, setters, or factory methods.
+*   **`BeanFactory` vs `ApplicationContext`**:
+    *   `BeanFactory`: The most basic container, providing configuration and basic DI. 🧱
+    *   `ApplicationContext`: A more advanced container built on top of `BeanFactory`. It adds enterprise features like internationalization, event publication, AOP integration, and web-specific contexts. 🏢
 
-### 2. **The Business Logic vs Plumbing Problem**
-Every application has two parts:
-- **Business Logic** (10-30%): What makes YOUR app unique
-- **Plumbing** (70-90%): Database connections, security, logging, error handling, transactions
+**Example:** Your `MovieRecommender` needs a `MovieFinder`. Instead of `new MovieFinder()`, you let Spring provide it.
 
-**Visual**: The Iceberg Metaphor
-```
-What Users See (Business Logic):
-───────────
- • Login button
- • Checkout process
- • Search feature
-───────────
-What Developers Maintain (Framework/Plumbing):
-══════════════════════════════════════════
- • Database connection pooling
- • Security authentication
- • Transaction management
- • Logging infrastructure
- • Caching mechanisms
- • HTTP request handling
- • Error recovery systems
-══════════════════════════════════════════
-```
+---
 
-### 3. **The Spring Ecosystem Explained**
+## 2. Container Overview 🏗️
 
-**Spring isn't one thing—it's a solar system:**
+The `ApplicationContext` is your main interface to the Spring container. You feed it **configuration metadata** (instructions on what beans to create and how they relate). This metadata can be in three forms:
 
-```
-        ┌─────────────────────────────────────┐
-        │         Spring Ecosystem            │
-        └─────────────────┬───────────────────┘
-                          │
-           ┌──────────────▼────────────────┐
-           │       SPRING CORE             │ ← The Sun (powers everything)
-           │  • IoC Container (Context)    │
-           │  • Aspect-Oriented Programming│
-           │  • Resource Management        │
-           └──────────────┬────────────────┘
-                          │
-    ┌─────────┬───────────┼──────────┬─────────┐
-    ▼         ▼           ▼          ▼         ▼
-┌───────┐┌───────┐┌─────────────┐┌───────┐┌─────────┐
-│ Spring││ Spring││ Spring      ││ Spring││ Spring  │
-│ Boot  ││ MVC   ││ Data Access ││ Data  ││ Security│
-└───────┘└───────┘└─────────────┘└───────┘└─────────┘
-```
+*   **XML configuration** (old-school, but still used in legacy projects) 📄
+*   **Annotation-based configuration** (using annotations like `@Component` on classes) 🏷️
+*   **Java-based configuration** (using `@Configuration` and `@Bean` methods) ☕
 
-### 4. **Inversion of Control (IoC) - The Core Concept**
-
-**Traditional Programming (You Control Everything):**
+**Example:** Creating a container with XML:
 ```java
-// You create everything
-Database db = new Database();
-Logger logger = new Logger();
-App app = new App(db, logger);
-app.start();
+ApplicationContext context = new ClassPathXmlApplicationContext("services.xml", "daos.xml");
 ```
+The container reads the XML, creates beans, wires dependencies, and you can then fetch a bean with `context.getBean("beanName", BeanClass.class)`.
 
-**Spring Programming (Framework Controls Everything):**
+---
+
+## 3. Bean Overview 🫘
+
+A **bean** is simply an object that is instantiated, assembled, and managed by the Spring IoC container. Each bean is defined by a `BeanDefinition` containing metadata like:
+
+*   Class name
+*   Scope (singleton, prototype, etc.)
+*   Constructor arguments and property values
+*   Lifecycle callbacks (init, destroy)
+*   References to other beans
+
+**Naming beans:** Each bean has one or more identifiers (IDs or aliases). If not specified, Spring generates a unique name (e.g., `myMovieLister` for class `MyMovieLister`).
+
+**Aliasing:** You can give a bean multiple names using `<alias/>` in XML or `@Bean(name = {"alias1", "alias2"})` in Java config.
+
+**Instantiating beans:**
+*   **Constructor:** `<bean class="com.example.MyClass"/>` – Spring calls `new MyClass()`.
+*   **Static factory method:** Use `factory-method` to call a static method that returns the object.
+*   **Instance factory method:** Use `factory-bean` and `factory-method` to call a method on another existing bean.
+
+---
+
+## 4. Dependencies 🔗
+
+This is the core of DI. Beans declare what they need, and the container provides it.
+
+### **Dependency Injection (DI) Types**
+
+*   **Constructor-based DI:** Dependencies are provided through constructor arguments. Best for **mandatory** dependencies. 👍
+    ```java
+    public class MovieRecommender {
+        private final MovieFinder movieFinder;
+        public MovieRecommender(MovieFinder movieFinder) {
+            this.movieFinder = movieFinder;
+        }
+    }
+    ```
+    In XML: `<constructor-arg ref="movieFinder"/>`
+
+*   **Setter-based DI:** Dependencies are set via setter methods after instantiation. Best for **optional** dependencies. ✋
+    ```java
+    public class MovieRecommender {
+        private MovieFinder movieFinder;
+        public void setMovieFinder(MovieFinder movieFinder) {
+            this.movieFinder = movieFinder;
+        }
+    }
+    ```
+    In XML: `<property name="movieFinder" ref="movieFinder"/>`
+
+**Resolution process:** The container resolves dependencies when creating the bean. Circular dependencies (A depends on B, B depends on A) are mostly resolved with setter injection; constructor injection can cause `BeanCurrentlyInCreationException`.
+
+### **Dependency Configuration Details**
+
+You can inject:
+*   **Simple values:** `<property name="url" value="jdbc:mysql://localhost:3306/mydb"/>`
+*   **References to other beans:** `<property name="dataSource" ref="myDataSource"/>`
+*   **Inner beans:** Define a bean inline within a property.
+*   **Collections:** `<list>`, `<set>`, `<map>`, `<props>`.
+*   **Null:** `<null/>`
+*   **Shortcuts:** Use `p-namespace` for properties and `c-namespace` for constructors in XML.
+
+### **Using `depends-on`**
+
+If bean A needs bean B to be initialized **before** A (even if not a direct property), use `depends-on="beanB"`. It also ensures B is destroyed after A.
+
+### **Lazy-initialized Beans**
+
+By default, singleton beans are created eagerly at startup. To defer creation until first use, mark a bean as `@Lazy` or `lazy-init="true"`. But if a non-lazy bean depends on it, it gets created anyway.
+
+### **Autowiring Collaborators**
+
+Spring can automatically wire dependencies by **type** or **name**. Modes:
+*   `no`: default, manual wiring.
+*   `byName`: property name matches bean name.
+*   `byType`: property type matches a single bean of that type.
+*   `constructor`: like byType but for constructor args.
+
+Useful for rapid development but can be ambiguous. You can exclude beans from autowiring with `autowire-candidate="false"`.
+
+### **Method Injection**
+
+When a singleton bean needs a **new instance** of a prototype bean each time a method is called, you can't just inject the prototype (it's created once). Solutions:
+
+*   **Lookup method injection:** Use `<lookup-method>` or `@Lookup` to tell Spring to override a method and return a new prototype instance each time.
+    ```java
+    public abstract class CommandManager {
+        protected abstract Command createCommand(); // to be overridden by Spring
+    }
+    ```
+*   **Arbitrary method replacement:** Replace any method with a custom implementation (less common).
+
+---
+
+## 5. Bean Scopes 🌐
+
+Scopes define the lifecycle of a bean instance.
+
+| Scope       | Description                                                                                     |
+|-------------|-------------------------------------------------------------------------------------------------|
+| **singleton** | (Default) One instance per Spring IoC container. All requests return the same object. 🥇         |
+| **prototype**  | A new instance is created every time the bean is requested. 🆕                                   |
+| **request**    | One instance per HTTP request. (Web-aware context) 📨                                            |
+| **session**    | One instance per HTTP session. (Web-aware) 👤                                                    |
+| **application**| One instance per `ServletContext`. (Web-aware) 🌍                                                |
+| **websocket**  | One instance per WebSocket session. (Web-aware) 🧦                                              |
+
+**Singleton with prototype dependencies:** If a singleton depends on a prototype, the prototype is injected only once. To get a new prototype each time, use **method injection** or **scoped proxies**.
+
+**Scoped beans as dependencies:** To inject a shorter-lived scope (e.g., request) into a longer-lived scope (e.g., singleton), use an AOP proxy. Define `<aop:scoped-proxy/>` or `@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)`. The proxy delegates calls to the actual scoped instance.
+
+**Custom scopes:** You can implement your own scope (e.g., thread scope) and register it via `CustomScopeConfigurer`.
+
+---
+
+## 6. Customizing the Nature of a Bean ✨
+
+Spring provides hooks to customize bean behavior.
+
+### **Lifecycle Callbacks**
+
+*   **Initialization:** `@PostConstruct` (recommended), `InitializingBean.afterPropertiesSet()`, or custom `init-method`.
+*   **Destruction:** `@PreDestroy` (recommended), `DisposableBean.destroy()`, or custom `destroy-method`.
+*   **Default init/destroy methods:** Set `default-init-method="init"` on `<beans>` to have a method named `init` called automatically on all beans.
+*   **Order of execution:** `@PostConstruct` → `afterPropertiesSet` → custom init-method.
+
+**Startup and shutdown callbacks:** Implement `Lifecycle` or `SmartLifecycle` to have your bean start/stop with the container (e.g., for background processes). `SmartLifecycle` allows phased startup/shutdown.
+
+**Shutdown hook:** Register a shutdown hook (`context.registerShutdownHook()`) to ensure graceful destruction of singleton beans in non-web apps.
+
+### **Aware Interfaces**
+
+Beans can ask for container infrastructure by implementing interfaces like:
+*   `ApplicationContextAware` – get the `ApplicationContext`.
+*   `BeanNameAware` – get the bean's name.
+*   `BeanFactoryAware` – get the `BeanFactory`.
+*   `ResourceLoaderAware`, `MessageSourceAware`, etc.
+
+*Use sparingly – they tie your code to Spring!*
+
+---
+
+## 7. Bean Definition Inheritance 👨‍👦
+
+A child bean definition can inherit configuration from a parent. Useful for templating.
+
+```xml
+<bean id="baseDao" abstract="true" class="com.example.BaseDao">
+    <property name="dataSource" ref="dataSource"/>
+</bean>
+
+<bean id="userDao" parent="baseDao" class="com.example.UserDao">
+    <property name="sessionFactory" ref="sessionFactory"/>
+</bean>
+```
+The `abstract` parent won't be instantiated. Child inherits `dataSource` and adds its own properties.
+
+---
+
+## 8. Container Extension Points 🔌
+
+You can plug in custom logic at various points.
+
+### **BeanPostProcessor**
+
+Intercepts bean **instance** creation. You can modify or wrap beans after they are instantiated (but before/after initialization callbacks). Common uses: proxying, injecting custom logic.
+
 ```java
-// You declare what you need
-@Component
-public class MyApp {
-    @Autowired Database db;
-    @Autowired Logger logger;
-    
-    // Spring creates and wires everything
+public class MyBeanPostProcessor implements BeanPostProcessor {
+    public Object postProcessBeforeInitialization(Object bean, String beanName) {
+        // ... before init
+        return bean;
+    }
+    public Object postProcessAfterInitialization(Object bean, String beanName) {
+        // ... after init, maybe wrap with proxy
+        return bean;
+    }
 }
 ```
 
-### 5. **Real-World Spring Use Cases**
+### **BeanFactoryPostProcessor**
 
-#### **Backend Applications (80% of usage)**
-```
-┌─────────────────────────────────────┐
-│     Backend App (Banking System)    │
-├─────────────────────────────────────┤
-│  • Spring MVC - Handle HTTP requests│
-│  • Spring Data - Database operations│
-│  • Spring Security - User auth      │
-│  • Spring Transactions - Money xfers│
-│  • Spring AOP - Logging/auditing    │
-└─────────────────────────────────────┘
+Operates on **bean definitions** (configuration metadata) before any beans are created. Used to modify property values, e.g., placeholder substitution.
+
+**`PropertySourcesPlaceholderConfigurer`** (a `BeanFactoryPostProcessor`) resolves `${...}` placeholders in bean definitions from properties files or environment variables.
+
+```xml
+<context:property-placeholder location="classpath:app.properties"/>
 ```
 
-#### **Test Automation Frameworks**
-```
-┌─────────────────────────────────────┐
-│     Test Automation App             │
-├─────────────────────────────────────┤
-│  • Spring Context - Manage test     │
-│    objects efficiently              │
-│  • Spring Data - Verify DB state    │
-│  • REST clients - Test APIs         │
-│  • Scheduling - Run tests regularly │
-└─────────────────────────────────────┘
-```
+**`PropertyOverrideConfigurer`** overrides bean property values with values from a properties file.
 
-#### **Desktop/Mobile Apps (Less common)**
-- Desktop apps using Spring for cleaner code organization
-- Android apps using Spring for Android (REST clients)
+### **FactoryBean**
 
-### 6. **When NOT to Use Spring (Important!)**
+If you have complex object creation logic, implement `FactoryBean`. The container uses it to produce the actual bean. To get the factory itself, prefix bean name with `&`.
 
-**🚫 Case 1: Minimal Footprint Needed**
+---
+
+## 9. Annotation-based Container Configuration 🏷️
+
+Enable annotation-driven injection with `<context:annotation-config/>` or `@ComponentScan`. This registers post-processors like `AutowiredAnnotationBeanPostProcessor`.
+
+### **@Autowired**
+
+Inject dependencies automatically by type.
+
+*   On constructors (if single constructor, `@Autowired` is optional).
+*   On fields, setter methods, arbitrary methods.
+*   For arrays/collections: get all beans of a type.
+*   For `Map<String, BeanType>`: keys are bean names.
+*   Mark optional with `required=false`, `Optional`, or `@Nullable`.
+*   Self-injection (reference to itself) is possible but rarely needed.
+
 ```java
-// Serverless function (AWS Lambda)
-public String handleRequest() {
-    return "Hello";  // 50ms cold start vs 500ms with Spring
-}
-// Problem: Spring adds ~10MB+ overhead
+@Autowired
+private MovieCatalog movieCatalog;
 
-// Use instead: Plain Java, Micronaut, Quarkus
+@Autowired
+public void prepare(@Qualifier("main") MovieCatalog mainCatalog, CustomerPreferenceDao dao) { ... }
 ```
 
-**🚫 Case 2: Security Dictates Custom Code**
-- Defense/Government systems
-- Financial trading systems where every millisecond matters
-- When you must have 100% control over every line
+### **@Primary / @Fallback**
 
-**🚫 Case 3: Excessive Customization Needed**
+When multiple beans of same type exist, mark one as `@Primary` to be the default. `@Fallback` (6.2+) marks beans that are used only if no other candidate matches.
+
+### **@Qualifier**
+
+Refine autowiring with qualifier values. Create custom qualifier annotations by meta-annotating with `@Qualifier`.
+
 ```java
-// If you're doing this much customization:
+@Autowired @Qualifier("action") private MovieCatalog actionCatalog;
+```
+
+### **Generics as Qualifiers**
+
+If you have `Store<String>` and `Store<Integer>`, autowiring `Store<String>` will pick the one with `String` generic.
+
+### **@Resource (JSR-250)**
+
+Injection by name. If no name specified, uses field/setter name.
+
+```java
+@Resource(name="myMovieFinder")
+private MovieFinder movieFinder;
+```
+
+### **@Value**
+
+Inject externalized properties (from `.properties` files, environment variables) or SpEL expressions.
+
+```java
+@Value("${catalog.name:defaultCatalog}")
+private String catalogName;
+
+@Value("#{systemProperties['user.country']}")
+private String country;
+```
+
+### **@PostConstruct and @PreDestroy**
+
+Standard lifecycle annotations (from JSR-250) for initialization and destruction.
+
+```java
+@PostConstruct
+public void init() { ... }
+```
+
+---
+
+## 10. Classpath Scanning and Managed Components 🔍
+
+Instead of explicit bean definitions, you can let Spring scan the classpath for annotated classes.
+
+### **Stereotype Annotations**
+
+*   `@Component` – generic component.
+*   `@Repository` – DAO/repository (exception translation).
+*   `@Service` – service layer.
+*   `@Controller` – web controller (Spring MVC).
+*   `@Configuration` – configuration class (contains `@Bean` methods).
+
+### **@ComponentScan**
+
+Tell Spring which packages to scan.
+
+```java
 @Configuration
-public class CustomConfig {
+@ComponentScan(basePackages = "com.example")
+public class AppConfig {}
+```
+Or with XML: `<context:component-scan base-package="com.example"/>`
+
+You can include/exclude filters (annotation, assignable, regex, aspectj, custom).
+
+### **Naming Autodetected Components**
+
+Default: lowercased non-qualified class name (e.g., `simpleMovieLister`). Override with `@Component("myName")` or `@Named("myName")`. Or provide a custom `BeanNameGenerator`.
+
+### **Scoping Autodetected Components**
+
+Use `@Scope` on the component class.
+
+```java
+@Scope("prototype")
+@Repository
+public class MovieFinderImpl { ... }
+```
+
+For web scopes, use `@RequestScope`, `@SessionScope`, etc.
+
+### **Providing Qualifier Metadata**
+
+Add `@Qualifier` or custom qualifier annotations on the component class.
+
+### **Defining @Bean Methods in @Component Classes**
+
+You can place `@Bean` methods inside a `@Component` class as well, but they are **not** enhanced with CGLIB (so calls to other `@Bean` methods inside the same class are just plain Java calls, not intercepted). Use `@Configuration` classes for inter-bean dependencies.
+
+```java
+@Component
+public class FactoryMethods {
     @Bean
-    public DataSource dataSource() {
-        // 200 lines of custom configuration
-    }
-    
-    @Bean 
-    public SecurityConfig security() {
-        // 300 lines overriding defaults
+    public MyBean myBean() {
+        return new MyBean();
     }
 }
-// Question: Are you fighting the framework more than using it?
-```
-
-**🚫 Case 4: No Benefit from Switching**
-- Working legacy system (don't fix what isn't broken)
-- Small utility apps
-- Proof-of-concepts that won't go to production
-
-### 7. **Spring vs Alternatives**
-
-| Use Case | Spring | Alternatives |
-|----------|---------|--------------|
-| Enterprise Backend | ✅ **Best Fit** | Jakarta EE, Quarkus |
-| Microservices | ✅ Spring Boot/Cloud | Micronaut, Quarkus |
-| High Performance | ⚠️ Okay | **Quarkus, Vert.x** |
-| Small Footprint | ❌ Avoid | Plain Java, Micronaut |
-| Rapid Prototyping | ✅ **Excellent** | Play Framework |
-| Mobile Apps | ⚠️ Limited | Native frameworks |
-
----
-
-## 📊 **Chapter 1 Mind Map**
-
-```
-                    SPRING FRAMEWORK
-                    ════════════════
-                            │
-        ┌───────────────────┼───────────────────┐
-        │                   │                   │
-    WHAT IT IS         WHY USE IT         WHEN TO AVOID
-    ────────          ──────────         ─────────────
-    • IoC Container   • Saves Time       • Minimal footprint
-    • AOP             • Reduces Bugs     • Security requires
-    • Ecosystem       • Community         custom-only code
-    • Convention over │ Support          • Heavy customization
-      configuration   • Production-ready • No benefit in switching
-                      • Industry standard│
-                                         │
-                    REAL-WORLD USES      ALTERNATIVES
-                    ───────────────      ─────────────
-                    • Backend apps       • Jakarta EE
-                    • Web services       • Quarkus
-                    • Testing frameworks • Micronaut  
-                    • Batch processing   • Play Framework
-                    • Cloud apps         • Google Guice
 ```
 
 ---
 
-## 🎯 **Chapter 1 Challenge: Consultant Analysis**
+## 11. Using JSR-330 Standard Annotations 🔄
 
-**Scenario**: You're a senior consultant at "Framework Advisory Inc." Three companies have approached you for guidance on whether to use Spring. Analyze each case:
+You can use `jakarta.inject` annotations instead of Spring's own, for portability.
 
-### **Company 1: FinTech Startup "QuickPay"**
-**Situation**: Building a payment processing backend that needs to:
-- Handle 500 transactions/second
-- Integrate with 5 different banks' APIs
-- Be ready for production in 3 months
-- Scale to 10,000 transactions/second within a year
-- Team: 10 developers, mixed experience levels
+*   `@Inject` – like `@Autowired`.
+*   `@Named` – like `@Component` and also for qualifier strings.
+*   `@Provider` – like Spring's `ObjectFactory`, for on-demand bean retrieval.
 
-**Your Analysis Template**:
-```markdown
-✅ **RECOMMENDATION: USE SPRING**
+**Limitations:**
+*   `@Inject` has no `required` attribute; use `Optional` instead.
+*   No `@Value` equivalent.
+*   Scopes: `@Singleton` exists, but other scopes need Spring's `@Scope`.
+*   `@Named` cannot be used as a meta-annotation for custom stereotypes.
 
-**Reasons:**
-1. **Rapid Development**: Spring Boot's convention-over-configuration will help meet the 3-month deadline
-2. **Proven at Scale**: Spring handles high transaction volumes (banks use it for core banking)
-3. **Ecosystem Fit**: 
-   - Spring Security for PCI compliance
-   - Spring Data for transaction records
-   - Spring Cloud for future microservices
-4. **Team Support**: Large community = easier hiring and troubleshooting
-
-**Risk Mitigation**:
-- Use Spring Boot Actuator for monitoring
-- Implement circuit breakers with Spring Cloud Circuit Breaker
-- Start with monolith, split to microservices when needed
+**Example:**
+```java
+@Named
+public class SimpleMovieLister {
+    @Inject
+    public void setMovieFinder(@Named("main") MovieFinder movieFinder) { ... }
+}
 ```
-
-### **Company 2: Government Agency "SecureData"**
-**Situation**: Classified data processing system requirements:
-- Zero open-source dependencies allowed
-- Must pass "red team" security audit
-- 5-year development timeline
-- Budget: Unlimited
-- Team: 50 senior developers with security clearances
-
-**Your Analysis Template**:
-```markdown
-❌ **RECOMMENDATION: AVOID SPRING**
-
-**Reasons:**
-1. **Security Policy Violation**: Spring is open-source → automatically disqualified
-2. **Custom Security Needs**: Government agencies often need bespoke security implementations that frameworks can't provide
-3. **Long Timeline**: Custom development is feasible with 5 years
-4. **Budget Availability**: Can afford to build everything from scratch
-
-**Alternative Approach**:
-- Build custom IoC container inspired by Spring patterns
-- Use Java EE specifications (if allowed)
-- Implement only needed features (no framework bloat)
-```
-
-### **Company 3: E-commerce "BoutiqueStyle"**
-**Situation**: Small online clothing store wants to:
-- Migrate from WordPress to custom system
-- Handle 100 orders/day max
-- Budget: $50,000 total
-- Timeline: 2 months
-- Team: 1 full-stack developer + contractor
-
-**Your Analysis Template**:
-```markdown
-⚠️ **RECOMMENDATION: RECONSIDER / LIGHTER OPTION**
-
-**Spring Concerns**:
-1. **Over-Engineering**: A full Spring stack for 100 orders/day is like using a cannon to kill a fly
-2. **Cost/Complexity**: Spring expertise adds to contractor costs
-3. **Maintenance Burden**: Small team may struggle with Spring's complexity
-
-**Better Options**:
-1. **Spring Boot (Light)**: Just web layer, skip heavy modules
-2. **Alternative**: Node.js + Express (faster for simple CRUD)
-3. **Hybrid**: Use Spring for core, but skip advanced features
-
-**If Using Spring**:
-- Spring Boot Starter Web only
-- Use H2 embedded database
-- Skip Spring Security (use basic auth)
-- No microservices - monolith is fine
-```
-
----
-
-## 📝 **Your Turn! Practice Exercise**
-
-**Analyze These Three Scenarios:**
-
-1. **Social Media Analytics Tool**
-   - Processes 1 million posts/day
-   - Uses machine learning libraries
-   - Team: 5 data scientists + 3 Java devs
-   - Must integrate with Python ML code
-
-2. **IoT Device Manager**
-   - Manages 100,000 smart sensors
-   - Real-time data processing
-   - 99.99% uptime required
-   - Team: 8 embedded systems engineers
-
-3. **University Course Scheduler**
-   - 5,000 students, 200 courses
-   - Runs once per semester
-   - Current system: Excel macros
-   - Budget: $20,000
-
-**For Each Scenario, Answer:**
-1. Should they use Spring? (Yes/No/Maybe)
-2. Which Spring modules would they need?
-3. What are the top 2 risks?
-4. What's your one-sentence recommendation?
-
-
-
-## 🔍 **Key Takeaways from Chapter 1**
-
-1. **Frameworks solve the 80% problem** - They handle the boring stuff so you can focus on what makes your app unique
-2. **Spring is an ecosystem**, not just a library - Pick the parts you need
-3. **IoC is the magic** - Let the framework manage your objects' lifecycle
-4. **Not every project needs Spring** - Consider footprint, team skills, requirements
-5. **Spring dominates enterprise Java** - But alternatives exist for specific needs
