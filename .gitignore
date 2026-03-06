@@ -6,3 +6,6 @@ Java/src/jdbc/.idea/vcs.xml
 Java/src/jdbc/mysql-connector-j-9.5.0.jar
 Java/.vscode/settings.json
 /backend/nginx/nginx-1.28.2
+/backend/node/Node Practical/taskverse_level_2/node_modules
+backend/node/Node Practical/taskverse_level_2/package-lock.json
+backend/node/Node Practical/taskverse_level_2/package.json
